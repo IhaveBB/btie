@@ -2,7 +2,7 @@
 ////调整数组使奇数全部都位于偶数前面。
 //#include<stdio.h>
 //#include<string.h>
-//
+
 //int main()
 //{
 //    int len = 0, i = 0, j = 0;
