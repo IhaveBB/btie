@@ -1,4 +1,5 @@
-#pragma warning(disable:4996)
+//#pragma warning(disable:4996)
+////调整数组使奇数全部都位于偶数前面。
 //#include<stdio.h>
 //#include<string.h>
 //
@@ -38,9 +39,9 @@
 //
 //    return 0;
 //}
-
-
-
+//
+//
+////模拟库函数strcpy
 //#include <stdio.h>
 //char my_strcpy(char* a, const char* str)
 //{
@@ -56,24 +57,24 @@
 //    printf("copy string: %s\n", a);
 //    return 0;
 //}
-
-
-
-#include<stdio.h>
-
-char my_strlen(char* str)
-{
-	unsigned long length=0;
-	while (*str != '\0') {
-		str++;
-		length++;
-	}
-	return length;
-}
-int main()
-{
-	char str[] = "Life is short and art is long.";
-	printf("%d", my_strlen(str));
-	return 0;
-}
-
+//
+//
+////模拟库函数strlen
+//#include<stdio.h>
+//
+//char my_strlen(char* str)
+//{
+//	unsigned long length=0;
+//	while (*str != '\0') {
+//		str++;
+//		length++;
+//	}
+//	return length;
+//}
+//int main()
+//{
+//	char str[] = "Life is short and art is long.";
+//	printf("%d", my_strlen(str));
+//	return 0;
+//}
+//
