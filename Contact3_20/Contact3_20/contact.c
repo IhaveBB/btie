@@ -1,35 +1,102 @@
 #define _CRT_SECURE_NO_WARNINGS
+#include<string.h>
 #include<stdio.h>
+#include<assert.h>
+#include<stdlib.h>
 #include"contact.h"
-void InitContact(Contact* pc)
-{
-	pc->sz = 0;
-	memset(pc->data,0,sizeof(pc->data));
-}
 
-void AddContact(Contact* pc)
+void InitContact(struct Contact* pc)
 {
-	if (pc->sz == MAX)//判断通讯里满了吗
-	{
-		printf("通讯录已满，无法增加\n");
+
+	assert(pc);
+	pc->data = (PeoInfo*)malloc(DEFAULT_SZ * sizeof(PeoInfo));
+	if (pc->data == NULL) {
+		printf("通讯录初始化失败%s", strerror(errno));
 		return;
 	}
-	printf("请输入名字:>");
-	scanf("%s", pc->data[pc->sz].name);
-	printf("请输入年龄");
-	scanf("%d", &pc ->data[pc ->sz].age);
-	printf("请输入性别");
-	scanf("%s", pc->data[pc->sz].sex);
-	printf("请输入电话");
-	scanf("%s", pc->data[pc->sz].tele);
-	printf("请输入地址");
-	scanf("%s", pc->data[pc->sz].addr);
-
-	pc->sz++;
-	printf("添加成功\n");
+	pc->sz = 0;
+	pc->capacity = DEFAULT_SZ;
 }
 
-void ShowContact(const Contact* pc)
+//void AddContact(Contact* pc)
+//{
+//	if (pc->sz == MAX)//判断通讯里满了吗
+//	{
+//		printf("通讯录已满，无法增加\n");
+//		return;
+//	}
+//	printf("请输入名字:>");
+//	scanf("%s", pc->data[pc->sz].name);
+//	printf("请输入年龄");
+//	scanf("%d", &pc ->data[pc ->sz].age);
+//	printf("请输入性别");
+//	scanf("%s", pc->data[pc->sz].sex);
+//	printf("请输入电话");
+//	scanf("%s", pc->data[pc->sz].tele);
+//	printf("请输入地址");
+//	scanf("%s", pc->data[pc->sz].addr);
+//
+//	pc->sz++;
+//	printf("添加成功\n");
+//}
+
+void DestoryContact(struct Contact* pc)//销毁
+{
+	free(pc->data);
+	pc->data = NULL;
+	pc->capacity = 0;
+	pc->sz = 0;
+}
+
+
+int CheckCapacity(Contact* pc)
+{
+	if (pc->sz == pc->capacity)
+	{
+		PeoInfo* ptr = (PeoInfo*)realloc(pc->data, (pc->capacity + 2) * sizeof(PeoInfo));
+		if ( ptr == NULL)
+		{
+			printf("CheckCapacity %s", strerror(errno));
+			return 0;
+		}
+		else {
+			pc->capacity += INC_SZ;
+			printf("增容成功");
+			return 1;
+		}
+	}
+}
+
+//动态增加联系人
+
+void AddContact(struct Contact* pc)//增加信息到通讯录当中
+{
+	int a = CheckCapacity(pc);
+	if (a == 0)
+	{
+		printf("失败\n");
+		return;
+	}
+
+	printf("请输入名字:>");
+	scanf("%s", pc->data[pc->sz].name);
+	printf("请输入性别:>");
+	scanf("%s", pc->data[pc->sz].sex);
+	printf("请输入年龄:>");
+	scanf("%d", &pc->data[pc->sz].age);
+	printf("请输入电话:>");
+	scanf("%s", pc->data[pc->sz].tele);
+	printf("请输入地址:>");
+	scanf("%s", pc->data[pc->sz].addr);
+	pc->sz++;
+	printf("成功增加联系人\n");
+
+
+}
+
+
+
+void ShowContact(Contact* pc)
 {
 	int i = 0;
 	printf("%-10s %-4s %-5s %-12s %-30s\n", "姓名", "年龄", "性别", "电话", "地址");
@@ -40,6 +107,14 @@ void ShowContact(const Contact* pc)
 	}
 }
 
+
+void DestroyConact(Contact* pc) {
+	free(pc->data);
+	pc->data = NULL;
+	pc->capacity = 0;
+	pc->sz = 0;
+	printf("释放内存\n");                                            
+}
 void DelContact(pContact pc)
 {
 	char name[MAX_NAME] = { 0 };
@@ -67,7 +142,7 @@ void DelContact(pContact pc)
 }
 
 
-void SearchContact(const pContact pc)
+void SearchContact(pContact pc)
 {
 	char name[MAX_NAME] = { 0 };
 	printf("请输入查找人的信息");
@@ -112,7 +187,7 @@ void ModifyContact(Contact* pc)
 	printf("修改成功");
 }
 //qsort函数比较方法
-int cmp_by_name(const void* e1, const void* e2)
+int cmp_by_name(void* e1,void* e2)
 {
 	return strcmp(((PeoInfo*)e1)->name, ((PeoInfo*)e2)->name);
 }
@@ -123,7 +198,7 @@ void SortContact(Contact* pc)
 	printf("排序成功");
 }
 
-static int FindByName(const Contact* pc, char name[])
+static int FindByName(Contact* pc, char name[])
 {
 	int i = 0;
 	int pos = 0;
