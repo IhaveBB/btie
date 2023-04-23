@@ -14,8 +14,10 @@ public class Main {
         //extractDigit(12375);
         //simulatedLogin();
         //project1();
-        System.out.printf("%d ",getGCD(32,16));
-        System.out.printf("%d",getGCD(16,32));
+        //System.out.printf("%d ",getGCD(32,16));
+        //System.out.printf("%d",getGCD(16,32));
+        byte a = (byte) 130;
+        float b = 3.5F;
 
     }
 
