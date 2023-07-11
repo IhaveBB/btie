@@ -1,5 +1,1 @@
-public class Company {
-    Employee[] employees;
-    int a = 0;
-
-}
+//write a buble sort function
