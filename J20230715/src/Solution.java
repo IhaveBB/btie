@@ -46,29 +46,31 @@ class Solution {
     public boolean isValid(String s) {
         Stack<Character> stack = new Stack<>();
         //首先判断如果第一个是右括号，直接错误
+        boolean sign = false;
         if (s.charAt(0) == ')' || s.charAt(0) == ']' || s.charAt(0) == '}') {
             return false;
         }
         //第一个是左括号的情况，就要进行递归检查
-        else{
-            for(int i = 0;i<s.length();i++){
-                char ch = s.charAt(i);
-                //如果是左括号，那么就放到栈中。
-                if(isLeftBracket(ch)){
-                    stack.push(ch);
-                }
-                //如果不是左括号，那么就检查右括号是否匹配.
-                else{
-                    if(stack.pop() == ch){
-                        return true;
+        else {
+            while (stack.isEmpty()!=true) {
+                for (int i = 0; i < s.length(); i++) {
+                    char ch = s.charAt(i);
+                    //如果是左括号，那么就放到栈中。
+                    if (isLeftBracket(ch)) {
+                        stack.push(ch);
                     }
-                    else{
-                        return false;
+                    //如果不是左括号，那么就检查右括号是否匹配.
+                    else {
+                        if (stack.pop() == ch) {
+                            sign = true;
+                        } else {
+                            sign = false;
+                        }
                     }
                 }
             }
         }
-        return false;
+        return sign;
     }
     //写一个判断是不是左括号的方法
     private boolean isLeftBracket(char c) {
