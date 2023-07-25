@@ -101,6 +101,9 @@ public class BinaryTree {
     }
 }*/
 
+import java.util.LinkedList;
+import java.util.Queue;
+
 public class BinaryTree {
 
     static class TreeNode {
@@ -259,19 +262,70 @@ public class BinaryTree {
 
 
     // 检测值为value的元素是否存在
-    TreeNode find(TreeNode root, char val) {
 
-        return null;
+     boolean find(TreeNode root, char val) {
+        if(root == null) {
+            return false;
+        }
+        if(root.val == val) {
+            return true;
+        }
+
+        boolean leftVal = find(root.left,val);
+        if(leftVal == true) {
+            return true;
+        }
+        boolean rightVal = find(root.right,val);
+        if(rightVal == true) {
+            return true;
+        }
+
+        return false;
     }
 
     //层序遍历
     void levelOrder(TreeNode root) {
-
+        if(root == null) {
+            return;
+        }
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.offer(root);
+        while (!queue.isEmpty()) {
+            TreeNode cur = queue.poll();
+            System.out.print(cur.val+" ");
+            if(cur.left != null) {
+                queue.offer(cur.left);
+            }
+            if(cur.right != null) {
+                queue.offer(cur.right);
+            }
+        }
     }
 
 
     // 判断一棵树是不是完全二叉树
     boolean isCompleteTree(TreeNode root) {
+    if(root == null) {
         return true;
     }
+    Queue<TreeNode> queue = new LinkedList<>();
+        queue.offer(root);
+        while (!queue.isEmpty()) {
+        TreeNode cur = queue.poll();
+        if(cur != null) {
+            queue.offer(cur.left);
+            queue.offer(cur.right);
+        }else {
+            //此时遇到了null
+            break;
+        }
+    }
+        while (!queue.isEmpty()) {
+        TreeNode cur = queue.poll();
+        if(cur != null) {
+            return false;
+        }
+    }
+        return true;
+}
 }
