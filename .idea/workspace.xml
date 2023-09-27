@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="dccde9e8-08f9-4a40-b020-a7bc5ff46b51" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/J20230919/src/Demo1.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/J20230919/src/Main.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/J20230919/src/Singleton.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/J20230919/src/SingletonLazy.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/bite109.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/bite109.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/J20230918/src/Singletor.java" beforeDir="false" afterPath="$PROJECT_DIR$/J20230918/src/Singletor.java" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="HTML File" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 1
+}</component>
+  <component name="ProjectId" id="2VptnLV6Vp0PofiRpfppKOM0O4q" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "DefaultHtmlFileTemplate": "HTML File",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "git-widget-placeholder": "JAVA",
+    "last_opened_file_path": "C:/Users/IhaveBB/Downloads/A4CB4D06-4EC8-447F-B08A-D4A4D105E117",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "settings.editor.selected.configurable": "copyright",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="dccde9e8-08f9-4a40-b020-a7bc5ff46b51" name="Changes" comment="" />
+      <created>1695545015795</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1695545015795</updated>
+      <workItem from="1695545017406" duration="953000" />
+      <workItem from="1695551463836" duration="83000" />
+      <workItem from="1695561844173" duration="4630000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+</project>
