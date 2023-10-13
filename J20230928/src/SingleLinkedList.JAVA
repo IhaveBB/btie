@@ -1,5 +1,5 @@
 import java.util.LinkedList;
-public class SingleLinkedList {
+class SingleLinkedList {
     private ListNode head;
     private class ListNode {
         int val;
@@ -62,25 +62,26 @@ public class SingleLinkedList {
         return false;
     }
     //删除第一次出现关键字为key的节点
-    public void remove(int key){
+    public void remove(int key) {
+        //判断key是否在单链表中
+        if (!contains(key)) {
+            System.out.println("Key not found");
+            return;
+        }
         if (head == null) {
             return;
         }
+        //单独删除头节点,跳过即可
         if (head.val == key) {
             head = head.next;
             return;
         }
-        ListNode cur = head;
-        while (cur.next != null && cur.next.val == key) {
-            cur.next = cur.next.next;
-        }
-        if (cur.next != null) {
-            cur.next = cur.next.next;
-        }
+        ListNode cur = searchPrev(key);
+        cur.next = cur.next.next;
     }
     //删除所有值为key的节点
     public void removeAllKey(int key) {
-        if (head != null && head.val == key) {
+        /*if (head != null && head.val == key) {
             head = head.next;
         }
         ListNode cur = head;
@@ -90,6 +91,23 @@ public class SingleLinkedList {
             } else {
                 cur = cur.next;
             }
+        }*/
+        if (head == null) {
+            return;
+        }
+        ListNode cul = head.next;
+        ListNode prev = head;
+        while (cul != null) {
+            if (cul.val == key) {
+                prev.next = cul.next;
+                cul = cul.next;
+            } else {
+                prev = cul;
+                cul = cul.next;
+            }
+        }
+        if (head.val == key) {
+            head = head.next;
         }
     }
         //得到单链表的长度
@@ -111,6 +129,24 @@ public class SingleLinkedList {
         System.out.println();
     }
     public void clear(){
+        //head == null 过于粗暴
+        ListNode cur = head;
+        ListNode curNext = null;
+        while(cur != null){
+            curNext = cur.next;
+            cur.next = null;
+            cur = cur.next;
+        }
         head = null;
+    }
+    private ListNode searchPrev(int key) {
+        ListNode cur = head;
+        while (cur.next != null) {
+            if (cur.next.val == key) {
+                return cur;
+            }
+            cur = cur.next;
+        }
+        return null;
     }
 }
