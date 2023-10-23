@@ -49,6 +49,7 @@ class Shelf {
     private MyStack<Product> stack = new MyStack<Product>(100);
     // 添加商品
     public void addProduct(Product product) {
+
         MyStack<Product> tempStack = new MyStack<>(100);
         //移动数据直到栈顶生产期日在新商品之前时
         while (!stack.isEmpty() && stack.peek().productionDate.isBefore(product.productionDate)) {
@@ -73,8 +74,11 @@ class Shelf {
 }
 
 // 商品类
+
+
 class Product {
     String name;
+
     LocalDate productionDate;
 
     public Product(String name, LocalDate productionDate) {

@@ -1,86 +1,128 @@
 #define _CRT_SECURE_NO_WARNINGS
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>  // 为了使用 memcmp 函数
 
-struct People {
+#define Maxsize 100
+
+typedef struct {
+    int year;
+    int month;
+    int day;
+} Date;
+
+typedef struct {
     int number;
-    int key;
-    struct People* next;
-};
+    Date date;
+} DataType;
 
-struct Josephus {
-    struct People* first;
-    struct People* last;
-    int n;
-};
+typedef struct {
+    DataType numbers[Maxsize];
+    int top;
+} Node;
 
-void Insert(struct Josephus* josephus, int n) {
-    josephus->n = n;
-    struct People* cur = NULL;
-
-    for (int i = 1; i <= n; i++) {
-        printf("请您输入第%d个密码: ", i);
-        int key;
-        scanf("%d", &key);
-        struct People* node = (struct People*)malloc(sizeof(struct People));
-        node->number = i;
-        node->key = key;
-
-        if (i == 1) {
-            josephus->last = josephus->first = node;
-            node->next = node;
-        }
-        else {
-            josephus->last->next = node;
-            josephus->last = node;
-            josephus->last->next = josephus->first;
-        }
+int GetTop(Node* N, DataType* ptr) {
+    if (N->top == -1) {
+        printf("下溢错误\n");
+        return 0;
     }
-
-
+    *ptr = N->numbers[N->top];
+    return 1;
 }
 
-void gameStart(struct Josephus* josephus, int max) {
-    printf("出列顺序为: ");
-    struct People* cur = josephus->first;
+void InitNode(Node* N) {
+    N->top = -1;
+}
 
-    while (josephus->n > 1) {
-        for (int i = 1; i < max - 1; i++) {
-            cur = cur->next;
-        }
-
-        max = cur->next->key;
-
-        if (max == 1) {
-            printf("%d ", cur->next->number);
-            struct People* temp = cur->next;
-            cur->next = cur->next->next;
-            free(temp);
-            josephus->n--;
-        }
-        else {
-            printf("%d ", cur->next->number);
-            struct People* temp = cur->next;
-            cur->next = cur->next->next;
-            free(temp);
-            josephus->n--;
-            cur = cur->next;
-        }
+int Push(Node* N, DataType x) {
+    if (N->top == Maxsize - 1) {
+        printf("上溢错误\n");
+        return 0;
     }
-    printf("%d\n", cur->number);
+    N->numbers[++(N->top)] = x;
+    return 1;
+}
+
+int Empty(Node* N) {
+    return N->top == -1;
 }
 
 int main() {
-    struct Josephus josephus;
-    josephus.first = NULL;
-    josephus.last = NULL;
-    printf("请输入总人数: ");
-    int n;
-    scanf("%d", &n);
-    printf("请输入第一圈的最大值: ");
-    int max;
-    scanf("%d", &max);
-    Insert(&josephus, n);
-    gameStart(&josephus, max);
+    Node N;
+    DataType x;
+    DataType y;
+    char input[9];
+    int num;
+    InitNode(&N);
+
+    printf("请输入入栈的个数: ");
+    scanf("%d", &num);
+
+    if (num <= 0 || num > Maxsize) {
+        printf("错误的输入数量\n");
+        return 1;
+    }
+
+    for (int i = 0; i < num; i++) {
+        printf("请输入入栈的数字（格式：YYYYMMDD）: ");
+        scanf("%s", input);
+
+        int year, month, day;
+        if (sscanf(input, "%4d%2d%2d", &year, &month, &day) != 3) {
+            printf("错误的输入日期\n");
+            return 1;
+        }
+
+        x.date.year = year;
+        x.date.month = month;
+        x.date.day = day;
+
+        Push(&N, x);
+
+        // 排序栈N
+        for (int j = N.top; j > 0; j--) {
+            if (memcmp(&N.numbers[j].date, &N.numbers[j - 1].date, sizeof(Date)) < 0) {
+                // 交换元素
+                DataType temp = N.numbers[j];
+                N.numbers[j] = N.numbers[j - 1];
+                N.numbers[j - 1] = temp;
+            }
+        }
+    }
+
+    printf("请输入要进入商架里的新数字（格式：YYYYMMDD）: ");
+    scanf("%s", input);
+
+    int newYear, newMonth, newDay;
+    if (sscanf(input, "%4d%2d%2d", &newYear, &newMonth, &newDay) != 3) {
+        printf("错误的输入日期\n");
+        return 1;
+    }
+
+    y.date.year = newYear;
+    y.date.month = newMonth;
+    y.date.day = newDay;
+
+    // 将y插入商架，并保持商架有序
+    int i = N.top;
+    while (i >= 0 && memcmp(&y.date, &N.numbers[i].date, sizeof(Date)) > 0) {
+        N.numbers[i + 1] = N.numbers[i];
+        i--;
+    }
+    N.numbers[i + 1] = y;
+    N.top++;
+
+    printf("现在商架里的日期是：\n");
+    for (int j = N.top; j >= 0; j--) {
+        printf("%d-%d-%d\n", N.numbers[j].date.year, N.numbers[j].date.month, N.numbers[j].date.day);
+    }
+
+    if (Empty(&N) == 1) {
+        printf("现在表内为空\n");
+    }
+    else {
+        printf("现在表有东西\n");
+    }
+
     return 0;
 }
