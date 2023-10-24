@@ -12,7 +12,6 @@ import java.util.concurrent.Executors;
 
 public class TcpEchoServer {
 	private ServerSocket severSocket = null;
-
 	public TcpEchoServer(int port) throws IOException {
 		severSocket = new ServerSocket(port);
 	}
