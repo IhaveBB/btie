@@ -1,7 +1,13 @@
 import java.util.Scanner;
 
 public class Demo9 {
-
+/**
+ * ISBN
+ *
+ * @name: Demo9
+ * @author: IhaveBB
+ * @date: 2023-10-25 23:14
+ **/
 	public static void main(String[] args) {
 		Scanner scanner = new Scanner(System.in);
 
