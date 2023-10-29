@@ -1,3 +1,0 @@
-﻿  test.c
-C:\Users\IhaveBB\Desktop\code\bite109\test_2_12\test_2_12\test.c(71,9): warning C4244: “return”: 从“unsigned long”转换到“char”，可能丢失数据
-  test_2_12.vcxproj -> C:\Users\IhaveBB\Desktop\code\bite109\test_2_12\Debug\test_2_12.exe
