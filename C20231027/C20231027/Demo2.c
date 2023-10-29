@@ -21,6 +21,7 @@ struct BinaryTreeNode* createBinaryTree(char* input, int* index) {
         root->right = createBinaryTree(input, index);
         return root;
     }
+    //
 
     (*index)++; 
     return NULL;
