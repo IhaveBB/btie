@@ -1,62 +1,51 @@
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.OutputStream;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.HashSet;
 import java.util.Scanner;
+import java.util.Set;
 
 public class Demo8 {
+	public static void main(String [] args) throws IOException, ClassNotFoundException {
 
-	public static void main(String[] args) throws IOException {
-
-		File file=new File("Product.txt");
-		Scanner in=new Scanner(file);
-		HashSet <Product> set1=new HashSet<Product>();
-		while(in.hasNext()) {
-			String line=in.nextLine();
-			System.out.println(line);
-			String[]items=line.split("\t");
-			String re="\\D*";
-			String pir=items[1].replaceAll(re, "").trim();
-//        System.out.println(pir);
-
-			Product pro=new Product(items[0],Double.parseDouble(pir),items[2],items[3]);
-			set1.add(pro);
-
+		Set<Product> set = new HashSet<Product>();
+		File file = new File("product.txt");
+		if (!file.exists()) {
+			System.out.println("您读取的文件不存在");
+			return;
 		}
-		in.close();
-
-
-		for(Product p:set1) {
-			System.out.println(p);
+		Scanner input = new Scanner(file);
+		while (input.hasNext()) {
+			String str = input.nextLine();
+			String[] items = str.split("\\s");
+			//价格转为double,清洗数据
+			String price = items[1].replaceAll("[￥/kg]","").trim();
+			Product product = new Product();
+			product.setName(items[0]);
+			product.setPrice(Double.parseDouble(price));
+			product.setType(items[2]);
+			product.setInfo(items[3]);
+			set.add(product);
 		}
-		File nFile = new File("nProduct.txt");
-		FileOutputStream out=new FileOutputStream(nFile);
-		ObjectOutputStream out1=new ObjectOutputStream (out);
-		for(Product p:set1) {
-			out1.writeObject(p);
+
+
+		//遍历HashSet集合元素，并将通过ObjectOutputStream存储于二进制文件中
+		File nFile = new File("nFile.txt");
+		FileOutputStream out = new FileOutputStream(nFile);
+		ObjectOutputStream output = new ObjectOutputStream(out);
+		for (Product p : set) {
+			output.writeObject(p);
 		}
-		FileInputStream input=new  FileInputStream(nFile);
-		ObjectInputStream input1=new  ObjectInputStream(input);
-		Product pro1 = null;
-		while (true) {
-			try {
-				if (((pro1 = ( Product)(input1.readObject())) != null)) break;
-			} catch (ClassNotFoundException e) {
-				throw new RuntimeException(e);
-			}
-
-			System.out.println(pro1);
+		output.writeObject(null);
+		output.close();
+		System.out.println("文件存储完成");
+		//读取二进制文件中存储的对象，比较二进制文件中存储的对象和源文件中存储对象的个数是否一致，为什么？
+		FileInputStream in = new FileInputStream(nFile);
+		ObjectInputStream input2 = new ObjectInputStream(in);
+		Object obj;
+		while ((obj = input2.readObject()) != null) {
+			System.out.println(obj);
 		}
-		out.close();
-		out1.close();
 
-
+		input2.close();
 	}
-
 }
-
