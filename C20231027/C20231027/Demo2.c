@@ -8,23 +8,90 @@ struct BinaryTreeNode {
     struct BinaryTreeNode* right;
 };
 
-struct BinaryTreeNode* createBinaryTree(char* input, int* index) {
-    if (input[*index] == '#') {
+struct Queue {
+    struct BinaryTreeNode* data;
+    struct Queue* next;
+};
+
+// 队列结构的初始化
+void initQueue(struct Queue* q) {
+    q->data = NULL;
+    q->next = NULL;
+}
+
+// 检查队列是否为空
+int isQueueEmpty(struct Queue* q) {
+    return q->data == NULL;
+}
+
+// 入队
+void enqueue(struct Queue* q, struct BinaryTreeNode* data) {
+    struct Queue* newNode = (struct Queue*)malloc(sizeof(struct Queue));
+    newNode->data = data;
+    newNode->next = NULL;
+    if (q->data == NULL) {
+        q->data = data;
+        q->next = NULL;
+    }
+    else {
+        struct Queue* current = q;
+        while (current->next != NULL) {
+            current = current->next;
+        }
+        current->next = newNode;
+    }
+}
+
+// 出队
+struct BinaryTreeNode* dequeue(struct Queue* q) {
+    if (isQueueEmpty(q)) {
         return NULL;
     }
-
-    if (input[*index] != '@') {
-        struct BinaryTreeNode* root = (struct BinaryTreeNode*)malloc(sizeof(struct BinaryTreeNode));
-        root->data = input[*index];
-        (*index)++;
-        root->left = createBinaryTree(input, index);
-        root->right = createBinaryTree(input, index);
-        return root;
+    else {
+        struct BinaryTreeNode* data = q->data;
+        struct Queue* temp = q;
+        q = q->next;
+        free(temp);
+        return data;
     }
-    //
+}
 
-    (*index)++; 
-    return NULL;
+struct BinaryTreeNode* createBinaryTree(char* input) {
+    struct BinaryTreeNode* root = NULL;
+    struct Queue q;
+    initQueue(&q);
+
+    int i = 0;
+    while (input[i] != '#') {
+        if (input[i] == '@') {
+            i++;
+            continue; // Skip empty nodes
+        }
+
+        struct BinaryTreeNode* node = (struct BinaryTreeNode*)malloc(sizeof(struct BinaryTreeNode));
+        node->data = input[i];
+        node->left = NULL;
+        node->right = NULL;
+
+        if (root == NULL) {
+            root = node;
+            enqueue(&q, root);
+        }
+        else {
+            struct BinaryTreeNode* current = dequeue(&q);
+            if (current->left == NULL) {
+                current->left = node;
+                enqueue(&q, node);
+            }
+            else if (current->right == NULL) {
+                current->right = node;
+                enqueue(&q, node);
+            }
+        }
+        i++;
+    }
+
+    return root;
 }
 
 void preorderTraversal(struct BinaryTreeNode* root) {
@@ -60,10 +127,10 @@ void freeBinaryTree(struct BinaryTreeNode* root) {
     free(root);
 }
 
-int main() {
-    char arr[] = "A@CD#";
-    int index = 0;
-    struct BinaryTreeNode* root = createBinaryTree(arr, &index);
+
+int main2() {
+    char arr[] = "ABCDEFG@@J@@I#"; // 请根据需要提供正确的输入数据
+    struct BinaryTreeNode* root = createBinaryTree(arr);
 
     printf("前序遍历: ");
     preorderTraversal(root);
@@ -77,7 +144,7 @@ int main() {
     postorderTraversal(root);
     printf("\n");
 
-    // Free allocated memory
+    // 释放分配的内存
     freeBinaryTree(root);
 
     return 0;
