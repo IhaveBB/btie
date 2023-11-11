@@ -128,7 +128,7 @@ void freeBinaryTree(struct BinaryTreeNode* root) {
 }
 
 
-int main() {
+int main2() {
     char arr[] = "ABCDEFG@@J@@I#"; // 请根据需要提供正确的输入数据
     struct BinaryTreeNode* root = createBinaryTree(arr);
 
