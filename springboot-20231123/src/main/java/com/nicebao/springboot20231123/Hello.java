@@ -6,15 +6,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class Hello {
-/**
- * HelloSpringBoot
- *
- * @name: Hello
- * @author: IhaveBB
- * @date: 2023-11-23 23:08
- **/
-	@RequestMapping("/hello")
+	@RequestMapping("/sayHi")
 	public String Hello(){
-		return "你好SpringBoot";
+		return "Hi";
+	}
+	
+	@RequestMapping("/r1")
+	public  String r1(Student student){
+		return student.toString();
 	}
 }

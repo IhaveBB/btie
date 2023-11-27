@@ -1,3 +1,4 @@
+/*
 package org.example;
 
 import javax.swing.*;
@@ -29,7 +30,6 @@ public class ViewStudentGUI extends JFrame {
 				String searchInput = searchField.getText();
 				StudentDAO studentDAO = new StudentDAO();
 				try {
-					Student student = studentDAO.searchStudent(searchInput);
 					if (student != null) {
 						displayArea.setText("查询结果：" + student.toString());
 					} else {
@@ -78,3 +78,4 @@ public class ViewStudentGUI extends JFrame {
 
 }
 
+*/

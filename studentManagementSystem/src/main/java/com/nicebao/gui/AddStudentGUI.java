@@ -1,17 +1,21 @@
-package org.example;
+package com.nicebao.gui;
+
+import com.nicebao.student.Student;
+import com.nicebao.jdbc.StudentDAO;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 
 public class AddStudentGUI extends JFrame {
 	private JTextField studentIdField, nameField, genderField, birthdateField, addressField, phoneNumberField;
-
+	private JRadioButton maleRadioButton, femaleRadioButton;
 	public AddStudentGUI() {
 		setTitle("学生-新增");
-		setSize(500, 600);
-
+		setSize(400, 400);
+		setLocationRelativeTo(null);
 		JPanel panel = new JPanel(new GridLayout(7, 2));
 
 		JLabel studentIdLabel = new JLabel("学号:");
@@ -24,12 +28,24 @@ public class AddStudentGUI extends JFrame {
 		panel.add(nameLabel);
 		panel.add(nameField);
 
+		// 创建单选按钮组
 		JLabel genderLabel = new JLabel("性别:");
-		genderField = new JTextField();
-		panel.add(genderLabel);
-		panel.add(genderField);
+		ButtonGroup genderGroup = new ButtonGroup();
+		//添加男女的选项
+		JPanel genderPanel = new JPanel(new GridLayout(1, 2));
+		maleRadioButton = new JRadioButton("男");
+		femaleRadioButton = new JRadioButton("女");
 
-		JLabel birthdateLabel = new JLabel("生日:");
+		genderGroup.add(maleRadioButton);
+		genderGroup.add(femaleRadioButton);
+
+		genderPanel.add(maleRadioButton);
+		genderPanel.add(femaleRadioButton);
+
+		panel.add(genderLabel);
+		panel.add(genderPanel); // 将性别选项添加到主面板中
+
+		JLabel birthdateLabel = new JLabel("生日:(输入格式 -> 年/月/日)");
 		birthdateField = new JTextField();
 		panel.add(birthdateLabel);
 		panel.add(birthdateField);
@@ -63,11 +79,31 @@ public class AddStudentGUI extends JFrame {
 		confirmBtn.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				StudentDAO studentDAO = new StudentDAO();
 				// 获取用户输入的信息
-				long studentId = Long.parseLong(studentIdField.getText());
+
+				//处理学号非数字问题
+				long studentId;
+				if(studentDAO.isNumber(studentIdField.getText())){
+					 studentId = Long.parseLong(studentIdField.getText());
+				}else{
+					JOptionPane.showMessageDialog(null, "学号只可输入数字", "错误", JOptionPane.ERROR_MESSAGE);
+					return;
+				}
+
 				String name = nameField.getText();
-				String gender = genderField.getText();
-				String birthdate = birthdateField.getText();
+				String gender ;
+				if (maleRadioButton.isSelected()) {
+					gender = "男";
+				} else if (femaleRadioButton.isSelected()) {
+					gender = "女";
+				} else {
+					gender = "";
+				}
+
+				//处理日期格式错误输入问题
+				String birthdate = Student.fixBirthdate(birthdateField.getText());
+
 				String address = addressField.getText();
 				String phoneNumber = phoneNumberField.getText();
 
@@ -75,13 +111,15 @@ public class AddStudentGUI extends JFrame {
 				Student student = new Student(studentId, name, gender, birthdate, address, phoneNumber);
 
 				// 调用StudentDAO来添加学生信息到数据库
-				StudentDAO studentDAO = new StudentDAO();
-				studentDAO.addStudent(student);
+				try {
+					studentDAO.addStudent(student);
+				} catch (SQLException ex) {
+					throw new RuntimeException(ex);
+				}
 
 				// 清空文本框
 				studentIdField.setText("");
 				nameField.setText("");
-				genderField.setText("");
 				birthdateField.setText("");
 				addressField.setText("");
 				phoneNumberField.setText("");
@@ -89,6 +127,7 @@ public class AddStudentGUI extends JFrame {
 		});
 		return confirmBtn;
 	}
+
 
 	public static void main(String[] args) {
 		SwingUtilities.invokeLater(new Runnable() {

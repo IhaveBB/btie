@@ -1,4 +1,9 @@
-package org.example;
+package com.nicebao.student;
+
+import javax.swing.*;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class Student {
 	/**
@@ -84,6 +89,26 @@ public class Student {
 				", 住址='" + address + '\'' + "\n" +
 				", 手机号='" + phoneNumber + '\'' + "\n" +
 				'}';
+	}
+	/** @description: 数据库中生日类为Date，格式要求为yyyy-MM-dd。
+	 * 故此方法为判断日期是否符合格式，若不符合则使用默认值，并提示错误，要求用户进行和修改。
+	 * @param: String
+	 * @return: String
+	 * @author: IhaveBB
+	 * @date: 2023/11/27
+	 */
+	public static String fixBirthdate(String birthdate) {
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
+		// 设置严格解析日期
+		dateFormat.setLenient(false);
+		try {
+			Date date = dateFormat.parse(birthdate);
+			//正确不进行修改
+			return birthdate;
+		} catch (ParseException e) {
+			System.out.println("生日日期格式日常" + e.getMessage());
+			return "1970/01/01";
+		}
 	}
 }
 
