@@ -1,0 +1,8 @@
+2024-03-06 12:43:32.692  INFO 9040 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8080 (http) with context path ''
+2024-03-06 12:43:32.701  INFO 9040 --- [main] c.n.springbook.SpringBookApplication     : Started SpringBookApplication in 1.35 seconds (JVM running for 2.14)
+2024-03-06 12:43:38.229  INFO 9040 --- [http-nio-8080-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2024-03-06 12:43:38.229  INFO 9040 --- [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2024-03-06 12:43:38.230  INFO 9040 --- [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 0 ms
+2024-03-06 12:43:38.313  INFO 9040 --- [http-nio-8080-exec-1] c.n.s.controller.BookController          : 查询到列表信息,pageRequest
+2024-03-06 12:43:38.324  INFO 9040 --- [http-nio-8080-exec-1] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2024-03-06 12:43:38.412  INFO 9040 --- [http-nio-8080-exec-1] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.

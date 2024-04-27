@@ -1,0 +1,5 @@
+2024-03-06 12:43:49.794  INFO 9040 --- [http-nio-8080-exec-8] c.n.s.controller.BookController          : 查询到列表信息,pageRequest
+2024-03-06 12:44:31.201  INFO 9040 --- [http-nio-8080-exec-6] c.n.s.controller.BookController          : 查询到列表信息,pageRequest
+2024-03-06 12:44:32.058  INFO 9040 --- [http-nio-8080-exec-1] c.n.s.controller.BookController          : 查询到列表信息,pageRequest
+2024-03-06 12:47:22.220  INFO 9040 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2024-03-06 12:47:22.225  INFO 9040 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.

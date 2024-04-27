@@ -1,160 +1,142 @@
 #define _CRT_SECURE_NO_WARNINGS
 #include <stdio.h>
 #include <stdlib.h>
-#include <stdbool.h>
-#include <string.h>
+#define MaxSize 10 // 假设图中最多顶点个数
 
-#define MAX_VERTICES 20
+// 全局数组变量visited初始化
+int visited[MaxSize] = { 0 };
 
-typedef struct Graph {
-    int vertices;
-    char** vertexNames;
-    int** adjacencyMatrix;
-} Graph;
+// 图中顶点的数据类型，假设为char型
+typedef char DataType;
 
-Graph* createGraph(int vertices) {
-    Graph* graph = (Graph*)malloc(sizeof(Graph));
-    graph->vertices = vertices;
+// 定义邻接矩阵存储结构
+typedef struct
+{
+    DataType vertex[MaxSize];     // 存放顶点的一维数组
+    int edge[MaxSize][MaxSize];   // 存放边的二维数组
+    int vertexNum, edgeNum;       // 图的顶点数和边数
+} MGraph;
 
-    graph->vertexNames = (char**)malloc(vertices * sizeof(char*));
-    graph->adjacencyMatrix = (int**)malloc(vertices * sizeof(int*));
+// 创建图
+void CreatGraph(MGraph* G, DataType a[], int n, int e)
+{
+    int i, j, k;
+    G->vertexNum = n;
+    G->edgeNum = e;
 
-    for (int i = 0; i < vertices; i++) {
-        graph->vertexNames[i] = (char*)malloc(50 * sizeof(char));
-        graph->adjacencyMatrix[i] = (int*)malloc(vertices * sizeof(int));
+    // 存储顶点信息
+    for (i = 0; i < G->vertexNum; i++)
+        G->vertex[i] = a[i];
 
-        for (int j = 0; j < vertices; j++) {
-            graph->adjacencyMatrix[i][j] = 0;
-        }
-    }
-    return graph;
-}
+    // 初始化邻接矩阵
+    for (i = 0; i < G->vertexNum; i++)
+        for (j = 0; j < G->vertexNum; j++)
+            G->edge[i][j] = 0;
 
-int findVertexIndex(Graph* graph, const char* vertexName) {
-    for (int i = 0; i < graph->vertices; ++i) {
-        if (strcmp(graph->vertexNames[i], vertexName) == 0) {
-            return i;
-        }
-    }
-    return -1;
-}
-
-void addEdge(Graph* graph, const char* start, const char* end) {
-    int startIndex = findVertexIndex(graph, start);
-    int endIndex = findVertexIndex(graph, end);
-
-    if (startIndex != -1 && endIndex != -1) {
-        graph->adjacencyMatrix[startIndex][endIndex] = 1;
-        graph->adjacencyMatrix[endIndex][startIndex] = 1;
-    }
-    else {
-        printf("Error: 未找到一个或多个顶点\n");
+    // 依次输入每一条边
+    for (k = 0; k < G->edgeNum; k++)
+    {
+        printf("输入边依附的顶点编号:");
+        scanf("%d%d", &i, &j); // 输入边依附的顶点编号
+        G->edge[i][j] = 1;
+        G->edge[j][i] = 1; // 置有边标志
     }
 }
 
-void DFSUtil(Graph* graph, int vertex, bool* visited) {
-    visited[vertex] = true;
-    printf("%s ", graph->vertexNames[vertex]);
-    for (int i = 0; i < graph->vertices; ++i) {
-        if (graph->adjacencyMatrix[vertex][i] == 1 && !visited[i]) {
-            DFSUtil(graph, i, visited);
-        }
+// 深度优先遍历
+void DFTraverse(MGraph* G, int v)
+{
+    int j;
+    printf("%c ", G->vertex[v]);
+    visited[v] = 1;
+    for (j = 0; j < G->vertexNum; j++)
+        if (G->edge[v][j] == 1 && visited[j] == 0)
+            DFTraverse(G, j);
+}
+
+// 广度优先遍历
+void BFTraverse(MGraph* G, int v)
+{
+    int i, j, Q[MaxSize]; // 采用顺序队列，存储顶点编号
+    int front = -1;
+    int rear = -1; // 初始化顺序队列
+    printf("%c ", G->vertex[v]);
+    visited[v] = 1;
+    Q[++rear] = v;
+    while (front != rear) // 当队列非空时
+    {
+        i = Q[++front]; // 将队头元素出队并送到v中
+        for (j = 0; j < G->vertexNum; j++)
+            if (G->edge[i][j] == 1 && visited[j] == 0)
+            {
+                printf("%c ", G->vertex[j]);
+                visited[j] = 1;
+                Q[++rear] = j;
+            }
     }
 }
 
-void DFS(Graph* graph, const char* startVertex) {
-    bool* visited = (bool*)malloc(graph->vertices * sizeof(bool));
-    for (int i = 0; i < graph->vertices; ++i) {
-        visited[i] = false;
-    }
-
-    int startIndex = findVertexIndex(graph, startVertex);
-    if (startIndex != -1) {
-        printf("深度优先遍历 %s: ", startVertex);
-        DFSUtil(graph, startIndex, visited);
-        printf("\n");
-    }
-    else {
-        printf("Error: 未找到起始顶点\n");
-    }
-
-    free(visited);
-}
-
-void BFS(Graph* graph, const char* startVertex) {
-    bool* visited = (bool*)malloc(graph->vertices * sizeof(bool));
-    for (int i = 0; i < graph->vertices; ++i) {
-        visited[i] = false;
-    }
-
-    int startIndex = findVertexIndex(graph, startVertex);
-    if (startIndex != -1) {
-        printf("广度优先遍历 %s: ", startVertex);
-        int queue[MAX_VERTICES];
-        int front = 0, rear = -1;
-        queue[++rear] = startIndex;
-        visited[startIndex] = true;
-
-        while (front <= rear) {
-            int currentVertex = queue[front++];
-            printf("%s ", graph->vertexNames[currentVertex]);
-
-            for (int i = 0; i < graph->vertices; ++i) {
-                if (graph->adjacencyMatrix[currentVertex][i] == 1 && !visited[i]) {
-                    queue[++rear] = i;
-                    visited[i] = true;
-                }
+// 打印无向图的邻接矩阵
+void PrintAdjacencyMatrix(MGraph* G)
+{
+    for (int i = 0; i < G->vertexNum; i++)
+    {
+        for (int j = 0; j < G->vertexNum; j++)
+        {
+            if (G->edge[i][j] == 1)
+                printf("1");
+            else
+            {
+                printf("0");
             }
         }
         printf("\n");
     }
-    else {
-        printf("Error: 未找到起始顶点\n");
-    }
-
-    free(visited);
 }
 
-void destroyGraph(Graph* graph) {
-    for (int i = 0; i < graph->vertices; ++i) {
-        free(graph->vertexNames[i]);
-        free(graph->adjacencyMatrix[i]);
-    }
-    free(graph->vertexNames);
-    free(graph->adjacencyMatrix);
-    free(graph);
-}
+int main()
+{
+    int vertex = 0;
+    printf("输入无向图的顶点数\n");
+    scanf("%d", &vertex);
 
-int main() {
-    int vertices, edges;
-    printf("输入顶点个数：");
-    scanf("%d", &vertices);
+    int number = 0;
+    printf("输入无向图的边数\n");
+    scanf("%d", &number);
 
-    Graph* graph = createGraph(vertices);
+    int i;
+    char ch[MaxSize];
 
-    for (int i = 0; i < vertices; ++i) {
-        printf("输入顶点 %d 的名字: ", i + 1);
-        scanf("%s", graph->vertexNames[i]);
+    printf("请输入顶点信息");
+    for (int i = 0; i < vertex; i++)
+    {
+        scanf(" %c", &ch[i]); // 注意%c前的空格
     }
 
-    printf("输入边数：");
-    scanf("%d", &edges);
+    MGraph MG;
+    CreatGraph(&MG, ch, vertex, number);
 
-    for (int i = 0; i < edges; ++i) {
-        char start[50], end[50];
-        printf("输入边的起始和结束顶点：");
-        scanf("%s %s", start, end);
-        addEdge(graph, start, end);
-    }
+    // 重置visited数组
+    for (i = 0; i < MaxSize; i++)
+        visited[i] = 0;
 
-    char startVertex[50];
-    printf("输入遍历的起始顶点： ");
-    scanf("%s", startVertex);
+    printf("无向图的邻接矩阵为\n");
+    PrintAdjacencyMatrix(&MG);
 
-    DFS(graph, startVertex);
-    BFS(graph, startVertex);
+    // 重置visited数组
+    for (i = 0; i < MaxSize; i++)
+        visited[i] = 0;
 
-    destroyGraph(graph);
+    printf("深度优先遍历序列是：\n");
+    DFTraverse(&MG, 0); // 从顶点0出发进行深度优先遍历
+
+    // 重置visited数组
+    for (i = 0; i < MaxSize; i++)
+        visited[i] = 0;
+
+    printf("广度优先遍历序列是：\n");
+    BFTraverse(&MG, 0); // 从顶点0出发进行广度优先遍历
 
     return 0;
 }
+

@@ -1,0 +1,10 @@
+2024-03-06 12:42:21.631  INFO 30100 --- [http-nio-8080-exec-1] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2024-03-06 12:43:28.793  INFO 30100 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2024-03-06 12:43:28.797  INFO 30100 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2024-03-06 12:43:31.629  INFO 9040 --- [main] c.n.springbook.SpringBookApplication     : Starting SpringBookApplication using Java 1.8.0_211 on M2021K11ACAX with PID 9040 (C:\Users\IhaveBB\Desktop\code\bite109\spring-book\target\classes started by IhaveBB in C:\Users\IhaveBB\Desktop\code\bite109\spring-book)
+2024-03-06 12:43:31.631  INFO 9040 --- [main] c.n.springbook.SpringBookApplication     : The following 1 profile is active: "dev"
+2024-03-06 12:43:32.266  INFO 9040 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8080 (http)
+2024-03-06 12:43:32.272  INFO 9040 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2024-03-06 12:43:32.273  INFO 9040 --- [main] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.68]
+2024-03-06 12:43:32.356  INFO 9040 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2024-03-06 12:43:32.357  INFO 9040 --- [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 700 ms

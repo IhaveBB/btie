@@ -1,0 +1,11 @@
+2024-03-06 12:42:20.288  INFO 30100 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2024-03-06 12:42:20.291  INFO 30100 --- [main] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.68]
+2024-03-06 12:42:20.390  INFO 30100 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2024-03-06 12:42:20.391  INFO 30100 --- [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 824 ms
+2024-03-06 12:42:20.761  INFO 30100 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8080 (http) with context path ''
+2024-03-06 12:42:20.767  INFO 30100 --- [main] c.n.springbook.SpringBookApplication     : Started SpringBookApplication in 1.544 seconds (JVM running for 2.457)
+2024-03-06 12:42:21.433  INFO 30100 --- [http-nio-8080-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2024-03-06 12:42:21.433  INFO 30100 --- [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2024-03-06 12:42:21.434  INFO 30100 --- [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms
+2024-03-06 12:42:21.520  INFO 30100 --- [http-nio-8080-exec-1] c.n.s.controller.BookController          : 查询到列表信息,pageRequest
+2024-03-06 12:42:21.531  INFO 30100 --- [http-nio-8080-exec-1] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...

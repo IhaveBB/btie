@@ -1,0 +1,8 @@
+2024-03-01 14:12:56.779  INFO 9668 --- [main] c.n.springbook.SpringBookApplication     : Starting SpringBookApplication using Java 1.8.0_211 on M2021K11ACAX with PID 9668 (C:\Users\IhaveBB\Desktop\code\bite109\spring-book\target\classes started by IhaveBB in C:\Users\IhaveBB\Desktop\code\bite109\spring-book)
+2024-03-01 14:12:56.787  INFO 9668 --- [main] c.n.springbook.SpringBookApplication     : The following 1 profile is active: "dev"
+2024-03-01 14:12:57.713  INFO 9668 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8080 (http)
+2024-03-01 14:12:57.720  INFO 9668 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2024-03-01 14:12:57.721  INFO 9668 --- [main] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.68]
+2024-03-01 14:12:57.863  INFO 9668 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2024-03-01 14:12:57.863  INFO 9668 --- [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1044 ms
+2024-03-01 14:12:58.381  INFO 9668 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8080 (http) with context path ''

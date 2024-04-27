@@ -1,0 +1,40 @@
+2024-03-01 17:19:41.140  INFO 31688 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2024-03-01 17:19:41.143  INFO 31688 --- [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 774 ms
+2024-03-01 17:19:41.180  WARN 31688 --- [main] ConfigServletWebServerApplicationContext : Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'bookController': Unsatisfied dependency expressed through field 'bookService'; nested exception is org.springframework.beans.factory.NoSuchBeanDefinitionException: No qualifying bean of type 'com.nicebao.springbook.service.BookService' available: expected at least 1 bean which qualifies as autowire candidate. Dependency annotations: {@org.springframework.beans.factory.annotation.Autowired(required=true)}
+2024-03-01 17:19:41.182  INFO 31688 --- [main] o.apache.catalina.core.StandardService   : Stopping service [Tomcat]
+2024-03-01 17:19:41.188  WARN 31688 --- [main] o.a.c.loader.WebappClassLoaderBase       : The web application [ROOT] appears to have started a thread named [logback-1] but has failed to stop it. This is very likely to create a memory leak. Stack trace of thread:
+ sun.misc.Unsafe.park(Native Method)
+ java.util.concurrent.locks.LockSupport.park(LockSupport.java:175)
+ java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject.await(AbstractQueuedSynchronizer.java:2039)
+ java.util.concurrent.ScheduledThreadPoolExecutor$DelayedWorkQueue.take(ScheduledThreadPoolExecutor.java:1081)
+ java.util.concurrent.ScheduledThreadPoolExecutor$DelayedWorkQueue.take(ScheduledThreadPoolExecutor.java:809)
+ java.util.concurrent.ThreadPoolExecutor.getTask(ThreadPoolExecutor.java:1074)
+ java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1134)
+ java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
+ java.lang.Thread.run(Thread.java:748)
+2024-03-01 17:19:41.194  INFO 31688 --- [main] ConditionEvaluationReportLoggingListener : 
+
+Error starting ApplicationContext. To display the conditions report re-run your application with 'debug' enabled.
+2024-03-01 17:19:41.212 ERROR 31688 --- [main] o.s.b.d.LoggingFailureAnalysisReporter   : 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+Field bookService in com.nicebao.springbook.controller.BookController required a bean of type 'com.nicebao.springbook.service.BookService' that could not be found.
+
+The injection point has the following annotations:
+	- @org.springframework.beans.factory.annotation.Autowired(required=true)
+
+
+Action:
+
+Consider defining a bean of type 'com.nicebao.springbook.service.BookService' in your configuration.
+
+2024-03-01 17:22:26.906  INFO 14928 --- [main] c.n.springbook.SpringBookApplication     : Starting SpringBookApplication using Java 1.8.0_211 on M2021K11ACAX with PID 14928 (C:\Users\IhaveBB\Desktop\code\bite109\spring-book\target\classes started by IhaveBB in C:\Users\IhaveBB\Desktop\code\bite109\spring-book)
+2024-03-01 17:22:26.909  INFO 14928 --- [main] c.n.springbook.SpringBookApplication     : The following 1 profile is active: "dev"
+2024-03-01 17:22:27.598  INFO 14928 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8080 (http)
+2024-03-01 17:22:27.604  INFO 14928 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2024-03-01 17:22:27.604  INFO 14928 --- [main] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.68]

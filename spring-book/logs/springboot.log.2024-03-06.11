@@ -1,0 +1,6 @@
+2024-03-06 12:42:07.973  INFO 19328 --- [http-nio-8080-exec-4] c.n.s.controller.BookController          : 查询到列表信息,pageRequest
+2024-03-06 12:42:16.238  INFO 19328 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2024-03-06 12:42:16.244  INFO 19328 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2024-03-06 12:42:19.538  INFO 30100 --- [main] c.n.springbook.SpringBookApplication     : Starting SpringBookApplication using Java 1.8.0_211 on M2021K11ACAX with PID 30100 (C:\Users\IhaveBB\Desktop\code\bite109\spring-book\target\classes started by IhaveBB in C:\Users\IhaveBB\Desktop\code\bite109\spring-book)
+2024-03-06 12:42:19.540  INFO 30100 --- [main] c.n.springbook.SpringBookApplication     : The following 1 profile is active: "dev"
+2024-03-06 12:42:20.283  INFO 30100 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8080 (http)
