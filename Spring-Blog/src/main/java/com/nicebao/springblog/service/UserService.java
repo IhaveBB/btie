@@ -4,9 +4,10 @@ import com.nicebao.springblog.mapper.BlogMapper;
 import com.nicebao.springblog.mapper.UserMapper;
 import com.nicebao.springblog.model.BlogInfo;
 import com.nicebao.springblog.model.UserInfo;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
+@Slf4j
 @Service
 public class UserService {
 
@@ -24,10 +25,13 @@ public class UserService {
 
 	public UserInfo getAuthorInfoByBlogId(Integer blogId) {
 		BlogInfo blogInfo = blogMapper.selectById(blogId);
-		if(blogInfo == null && blogInfo.getUserId() < 1){
+		log.info("根据blogInfo获取到id"+blogInfo.getId());
+		if (blogInfo==null && blogInfo.getUserId()<1){
 			return null;
 		}
-		return userMapper.selectUserById(blogInfo.getUserId());
+		UserInfo userInfo = userMapper.selectUserById(blogInfo.getUserId());
+		log.info(String.valueOf(userInfo.getId()));
+		return userInfo;
 	}
 /**
  *
