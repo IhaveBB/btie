@@ -6,7 +6,7 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
   mybatis:
     configuration:
-      map-underscore-to-camel-case: true
+      map-underscore-to-camel-case: false
       log-impl: org.apache.ibatis.logging.stdout.StdOutImpl #打印sql语句
     mapper-locations: classpath:mapper/**Mapper.xml
   logging:

@@ -1,5 +1,6 @@
 package com.nicebao.anglecalculator.controller;
 
+import com.nicebao.anglecalculator.constants.Constant;
 import com.nicebao.anglecalculator.service.DegreeService;
 import com.nicebao.anglecalculator.model.Degree;
 import com.nicebao.anglecalculator.model.Result;
@@ -39,6 +40,9 @@ public class DegreeController {
 	}
 	@RequestMapping("/divide")
 	public Result<Degree> divide(@RequestParam String degreeStr, @RequestParam double num) {
+		if(num == 0){
+			return Result.fail("分母不可为零", Constant.ZERO_ERROR_CODE);
+		}
 		Degree d1 = new Degree(degreeStr);
 		return Result.success(degreeService.divide(d1,num));
 	}
