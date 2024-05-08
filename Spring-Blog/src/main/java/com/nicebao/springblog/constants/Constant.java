@@ -16,5 +16,7 @@ public class Constant {
 
 	public final static String USER_CLAIM_ID = "id";
 	public final static String USER_CLAIM_NAME = "name";
+	public final static Integer DELETE_FLAG = 1;
+	public final static Integer UNDELETE_FLAG = 0;
 
 }
