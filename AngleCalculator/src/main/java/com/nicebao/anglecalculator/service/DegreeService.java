@@ -43,11 +43,7 @@ public class DegreeService {
 		return new Degree(totalDegrees, totalMinutes, totalSecondsRemainder);
 	}
 
-	public Degree divide(Degree d1, double num) throws ArithmeticException {
-		if (num == 0) {
-			throw new ArithmeticException("Cannot num by zero");
-		}
-
+	public Degree divide(Degree d1, double num) {
 		double quotientSeconds = ((d1.getDegree() * 3600 + d1.getMinute() * 60 + d1.getSecond())
 				/ num);
 

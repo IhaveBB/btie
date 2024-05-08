@@ -22,8 +22,21 @@ public class BlogInfo {
 	private Integer deleteFlag;
 	private Date createTime;
 	private Date updateTime;
+	private Boolean isLoginUser;
+
 	public String getCreateTime() {
 		return DateUtils.formatDate(createTime);
 	}
+
+	public BlogInfo(String title, String content, Integer userId) {
+		this.title = title;
+		this.content = content;
+		this.userId = userId;
+	}
+
+	public BlogInfo() {
+	}
+
 }
+
 

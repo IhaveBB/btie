@@ -6,9 +6,10 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
   mybatis:
     configuration:
-      map-underscore-to-camel-case: true
-      log-impl: org.apache.ibatis.logging.stdout.StdOutImpl #打印sql语句
-    mapper-locations: classpath:mapper/**Mapper.xml
+      map-underscore-to-camel-case: true #\u914D\u7F6E\u9A7C\u5CF0\u81EA\u52A8\u8F6C\u6362
+      log-impl: org.apache.ibatis.logging.stdout.StdOutImpl #\u6253\u5370Sql\u8BED\u53E5
+    mapper-locations: classpath:mapper/*.xml
+  # \u8BBE\u7F6E\u65E5\u5FD7\u8DEF\u5F84
   logging:
     file:
       name: spring-blog.log
