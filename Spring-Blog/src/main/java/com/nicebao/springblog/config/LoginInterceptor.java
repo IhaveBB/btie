@@ -15,7 +15,6 @@ public class LoginInterceptor implements HandlerInterceptor {
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
 		String userToken = request.getHeader(Constant.USER_TOKEN_HEADER);
 		boolean result = JWTUtils.checkToken(userToken);
-		log.info("拦截器成功从head获得token, token:"+userToken);
 		if(result){
 			return true;
 		}
