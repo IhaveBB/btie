@@ -23,7 +23,6 @@ object CategaryClickCountDAO {
     for(els <- list){
       table.incrementColumnValue(Bytes.toBytes(els.day_categaryId),Bytes.toBytes(cf),Bytes.toBytes(qualifer),els.click_count)
     }
-
   }
 
   //查询的方法

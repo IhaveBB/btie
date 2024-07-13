@@ -1,4 +1,4 @@
-package com;
+package com.Utils;
 
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.hbase.client.*;
@@ -27,9 +27,7 @@ public class HBaseUtils {
             admin = new HBaseAdmin(configration); } catch (IOException e) {
 
             e.printStackTrace();
-
         }
-
     }
     private static HBaseUtils instance = null;
 
@@ -61,7 +59,6 @@ public class HBaseUtils {
             e.printStackTrace();
         }
         return table;
-
     }
     /**
 
@@ -91,8 +88,6 @@ public class HBaseUtils {
             e.printStackTrace();
 
         }
-
-
     }
 
     /** * 根据表名输入条件获取 Hbase 的记录数
@@ -114,7 +109,6 @@ public class HBaseUtils {
             map.put(row, clickCount);
         }
         return map;
-
     }
     public static void main(String[] args) throws IOException {
         Map<String, Long> map = HBaseUtils.getInstance().query("category_clickcount", "20240711");

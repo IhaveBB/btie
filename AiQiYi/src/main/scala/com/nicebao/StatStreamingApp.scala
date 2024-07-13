@@ -10,10 +10,7 @@ import org.apache.spark.streaming.kafka010.ConsumerStrategies.Subscribe
 import scala.collection.mutable.ListBuffer
 object StatStreamingApp {
   def main(args: Array[String]): Unit = {
-    //streaming对象
     var  ssc= new StreamingContext("local[*]","StatStreamingApp",Seconds(5))
-    //
-
     val kafkaParams = Map[String, Object](
       "bootstrap.servers" -> "192.168.58.11:9092",
       "key.deserializer" -> classOf[StringDeserializer],
@@ -61,9 +58,6 @@ object StatStreamingApp {
         CategaryClickCountDAO.save(list)
       })
     })
-
-
-
 
     ssc.start()
     // 关闭，并允许关闭声明后新任务能提交

@@ -1,12 +1,15 @@
 package com;
 
 
+import com.Utils.DataUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -37,7 +40,7 @@ public class NongDA {
     public List<CategoryClickCount> courseClickCount() throws Exception {
         //如果main方法测试必须实例化 CategoryClickCountDAO
         //categoryClickCountDAO=new CategoryClickCountDAO();
-        List<CategoryClickCount> list = categoryClickCountDAO.query("20240712");
+        List<CategoryClickCount> list = categoryClickCountDAO.query(DataUtils.getCurrentDateFormatted());
         //把数据和courses对比和爬虫文件中的数据要一致
         //model.getName().substring(9）从9位开始取 取到最后
         for(CategoryClickCount model:list){
@@ -50,9 +53,15 @@ public class NongDA {
         }
         return list;
     }
-        @RequestMapping("/aqy")
-        public ModelAndView  ff1(){
-            return  new ModelAndView("ab.html");
+    @RequestMapping("/aqy")
+    public ModelAndView  ff1(){
+        return  new ModelAndView("ab.html");
 
-        }
+    }
+    @RequestMapping("/currentdate")
+    public String currentDate() {
+        LocalDate now = LocalDate.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
+        return now.format(formatter);
+    }
 }

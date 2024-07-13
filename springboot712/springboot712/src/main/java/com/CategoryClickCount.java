@@ -16,6 +16,4 @@ public class CategoryClickCount {
     } public String getName() {
         return name;
     }
-
-
 }
