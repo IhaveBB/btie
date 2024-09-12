@@ -4,7 +4,6 @@ import com.nicebao.common.ApiResponse;
 import com.nicebao.enums.ApiResponseCodeEnum;
 import com.nicebao.mapper.InfoMapper;
 import com.nicebao.model.Info;
-import com.nicebao.utils.DataTimeUtils;
 import com.nicebao.utils.MybatisUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.session.SqlSession;
@@ -29,16 +28,19 @@ import java.util.Date;
 @MultipartConfig
 @Slf4j
 public class submit extends HttpServlet {
+	public static long maxSize = 2 * 1024 * 1024;
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		req.setCharacterEncoding("UTF-8");
+		resp.setContentType("application/json");
+		resp.setCharacterEncoding("UTF-8");
 
 		Info info = new Info();
 		info.setName(req.getParameter("name"));
 		info.setStudentId(req.getParameter("studentId"));
 		info.setPhoneNumber(req.getParameter("phoneNumber"));
 		info.setLeaveReason(req.getParameter("leaveReason"));
-		//时间戳转换为Data
+		//时间戳转换为Data,让mybatis自己拆包映射为数据库需要的字段
 		Date predictLeaveTime = new Date(Long.parseLong(req.getParameter("predictLeaveTime")));
 		Date predictReturnTime = new Date(Long.parseLong(req.getParameter("predictReturnTime")));
 		info.setPredictLeaveTime(predictLeaveTime);
@@ -48,17 +50,35 @@ public class submit extends HttpServlet {
 		info.setStatus("pending");
 		//校验部分
 		if(predictLeaveTime.after(predictReturnTime)){
-			resp.setContentType("application/json");
-			resp.setCharacterEncoding("UTF-8");
 			ObjectMapper mapper = new ObjectMapper();
-			ApiResponse<String> apiResponse = ApiResponse.fail(ApiResponseCodeEnum.PARAM_DATE_IS_ERROR);
-			String jsonResponse = mapper.writeValueAsString(apiResponse);
+			String jsonResponse = mapper.writeValueAsString(ApiResponse.fail(ApiResponseCodeEnum.PARAM_DATE_IS_ERROR));
 			resp.getWriter().write(jsonResponse);
 			return;
 		}
 
 		// 文件上传部分
-		Part filePart = req.getPart("file"); // 获取上传的文件
+		Part filePart = req.getPart("file");
+		String fileType = filePart.getContentType();
+		long fileSize = filePart.getSize();
+		// 限制文件类型为图片 (JPEG 或 PNG)
+		if (!"image/jpeg".equals(fileType) && !"image/png".equals(fileType)) {
+			resp.setContentType("application/json");
+			resp.setCharacterEncoding("UTF-8");
+			ObjectMapper mapper = new ObjectMapper();
+			String jsonResponse = mapper.writeValueAsString(ApiResponse.fail(ApiResponseCodeEnum.PARAM_FILE_FOMAT_ERROR));
+			resp.getWriter().write(jsonResponse);
+			return;
+		}
+
+		if (fileSize > maxSize) {
+			resp.setContentType("application/json");
+			resp.setCharacterEncoding("UTF-8");
+			ObjectMapper mapper = new ObjectMapper();
+			String jsonResponse = mapper.writeValueAsString(ApiResponse.fail(ApiResponseCodeEnum.PARAM_FILE_SIZE_ERROR));
+			resp.getWriter().write(jsonResponse);
+			return;
+		}
+
 		String uploadPath = req.getServletContext().getRealPath("/") + "upload";
 		File uploadDir = new File(uploadPath);
 		if (!uploadDir.exists()) {
@@ -68,7 +88,6 @@ public class submit extends HttpServlet {
 		String fileName = filePart.getSubmittedFileName();
 		String filePath = uploadPath + File.separator + fileName;
 		filePart.write(filePath); // 保存文件
-		// 将文件路径存储到 info 对象
 		info.setProofPath(filePath);
 
 		//提交到数据库
@@ -79,10 +98,8 @@ public class submit extends HttpServlet {
 		}
 
 		// 提交成功时返回统一格式的 JSON 响应
-		resp.setContentType("application/json");
-		ApiResponse<Info> apiResponse = ApiResponse.success(info);
 		ObjectMapper mapper = new ObjectMapper();
-		String jsonResponse = mapper.writeValueAsString(apiResponse);
+		String jsonResponse = mapper.writeValueAsString(ApiResponse.success(info));
 		resp.getWriter().write(jsonResponse);
 
 	}
