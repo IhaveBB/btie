@@ -82,22 +82,22 @@ public class submit extends HttpServlet {
 		String uploadPath = req.getServletContext().getRealPath("/") + "upload";
 		File uploadDir = new File(uploadPath);
 		if (!uploadDir.exists()) {
-			uploadDir.mkdirs(); // 如果目录不存在，创建
+			uploadDir.mkdirs();
 		}
 		// 保存文件到服务器指定路径
 		String fileName = filePart.getSubmittedFileName();
 		String filePath = uploadPath + File.separator + fileName;
-		filePart.write(filePath); // 保存文件
+		// 保存文件
+		filePart.write(filePath);
 		info.setProofPath(filePath);
 
 		//提交到数据库
 		try (SqlSession sqlSession = MybatisUtils.getSqlSession()) {
 			InfoMapper infoMapper = sqlSession.getMapper(InfoMapper.class);
 			infoMapper.insertInfo(info);
-			sqlSession.commit();  // 提交事务
+			sqlSession.commit();
 		}
 
-		// 提交成功时返回统一格式的 JSON 响应
 		ObjectMapper mapper = new ObjectMapper();
 		String jsonResponse = mapper.writeValueAsString(ApiResponse.success(info));
 		resp.getWriter().write(jsonResponse);

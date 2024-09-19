@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.nicebao.mapper.MessageMapper">
+    <!-- 插入留言 -->
+    <insert id="insertMessage">
+        INSERT INTO messages (user_name, content)
+        VALUES (#{userName}, #{content});
+    </insert>
+
+    <!-- 查询所有留言 -->
+    <select id="getAllMessages" resultType="com.nicebao.model.Message">
+        SELECT * FROM messages ORDER BY created_at DESC;
+    </select>
+</mapper>
