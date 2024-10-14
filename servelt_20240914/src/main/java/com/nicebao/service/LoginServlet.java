@@ -25,7 +25,7 @@ public class LoginServlet extends HttpServlet {
 
 			if (user != null && user.getPassword().equals(password)) {
 				request.getSession().setAttribute("userName", userName);
-				request.getRequestDispatcher("message.jsp").forward(request, response);
+				request.getRequestDispatcher("index.jsp").forward(request, response);
 			} else {
 				request.setAttribute("errorMessage", "用户名或密码错误");
 				request.getRequestDispatcher("login.jsp").forward(request, response);

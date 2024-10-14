@@ -1,0 +1,22 @@
+<component name="ArtifactManager">
+  <artifact type="exploded-war" name="servelt_20240916:war exploded">
+    <output-path>$PROJECT_DIR$/out/artifacts/servelt_20240916_war_exploded</output-path>
+    <root id="root">
+      <element id="javaee-facet-resources" facet="servelt_20240916/web/Web" />
+      <element id="directory" name="WEB-INF">
+        <element id="directory" name="classes">
+          <element id="module-output" name="servelt_20240916" />
+        </element>
+        <element id="directory" name="lib">
+          <element id="library" level="project" name="Maven: javax.servlet:javax.servlet-api:3.1.0" />
+          <element id="library" level="project" name="Maven: javax.servlet:jstl:1.2" />
+          <element id="library" level="application" name="bootstrap" />
+          <element id="library" level="application" name="jquery" />
+          <element id="library" level="application" name="naive-ui" />
+          <element id="library" level="application" name="scala-sdk-2.12.15" />
+          <element id="library" level="application" name="vue" />
+        </element>
+      </element>
+    </root>
+  </artifact>
+</component>

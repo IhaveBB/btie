@@ -1,0 +1,28 @@
+姓名: 1
+学号: 1
+联系方式: 1
+请假日期: 2024-02-04
+请假原因: 242424
+文件路径: C:\Users\IhaveBB\Desktop\code\bite109\servelt_20240906\out\artifacts\servelt_20240906_war_exploded\\uploads\教育部学籍在线验证报告_刘均宝.pdf
+-------------------------------
+姓名: 1
+学号: 1
+联系方式: 1
+请假日期: 2024-02-04
+请假原因: 242424
+文件路径: C:\Users\IhaveBB\Desktop\code\bite109\servelt_20240906\out\artifacts\servelt_20240906_war_exploded\\uploads\教育部学籍在线验证报告_刘均宝.pdf
+-------------------------------
+姓名: 424
+学号: 2424
+联系方式: 4224
+请假日期: 2222-02-02
+请假原因: 242412
+文件路径: C:\Users\IhaveBB\Desktop\code\bite109\servelt_20240906\out\artifacts\servelt_20240906_war_exploded\\uploads\在校生证明_00.jpg
+-------------------------------
+姓名: 13
+学号: 21
+联系方式: 21
+请假日期: 1111-02-01
+请假原因: 12112
+文件路径: C:\Users\IhaveBB\Desktop\code\bite109\servelt_20240906\out\artifacts\servelt_20240906_war_exploded\\uploads\刘均宝 2022122100242 22软工4 数据库原理实验报告第五次 数据库完整性约束的实现与验证.doc
+-------------------------------

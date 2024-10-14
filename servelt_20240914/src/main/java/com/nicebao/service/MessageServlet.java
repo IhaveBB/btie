@@ -59,10 +59,10 @@ public class MessageServlet extends HttpServlet {
 		String content = request.getParameter("content");
 		if (insertMessage(userName, content)) {
 			doGet(request, response);
-			response.sendRedirect("message.jsp");
+			response.sendRedirect("index.jsp");
 		} else {
 			request.setAttribute("errorMessage", "留言提交失败，请重试");
-			request.getRequestDispatcher("message.jsp").forward(request, response);
+			request.getRequestDispatcher("index.jsp").forward(request, response);
 		}
 	}
 
@@ -70,7 +70,7 @@ public class MessageServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		List<Message> messages = getAllMessages();
 		request.setAttribute("messages", messages);
-		request.getRequestDispatcher("message.jsp").forward(request, response);
+		request.getRequestDispatcher("index.jsp").forward(request, response);
 	}
 
 }
