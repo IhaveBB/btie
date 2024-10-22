@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nicebao.mapper.UserMapper">
+    <insert id="insertUser" parameterType="com.nicebao.model.User">
+        INSERT INTO users (username, password) VALUES (#{username}, #{password});
+    </insert>
+
+    <select id="findUserByUsername" parameterType="String" resultType="com.nicebao.model.User">
+        SELECT * FROM users WHERE username = #{username};
+    </select>
+    <select id="getLoginLogs" resultType="com.nicebao.model.LoginLog">
+        SELECT * FROM login_logs WHERE user_id = #{userId} ORDER BY login_time DESC;
+    </select>
+    <select id="getAllLoginLogs" resultType="com.nicebao.model.LoginLog">
+        SELECT * FROM login_logs
+        ORDER BY login_time DESC
+    </select>
+    <select id="getAllOperationLogs" resultType="com.nicebao.model.OperationLog">
+        select * from user_action_logs
+        ORDER BY action_time DESC;
+    </select>
+
+    <insert id="insertLoginLog" parameterType="com.nicebao.model.LoginLog">
+        INSERT INTO login_logs (user_id, login_time, login_ip) VALUES (#{userId}, #{loginTime}, #{loginIp});
+    </insert>
+    <insert id="insertUserActionLog" parameterType="com.nicebao.model.UserActionLog">
+        INSERT INTO user_action_logs (user_id, action_time, ip, url)
+        VALUES (#{userId}, #{actionTime}, #{ip}, #{url})
+    </insert>
+    <update id="updateUser" parameterType="com.nicebao.model.User">
+        UPDATE users
+        SET last_login_time = #{lastLoginTime}, last_ip = #{lastIp}
+        WHERE id = #{id}
+    </update>
+
+</mapper>

@@ -15,7 +15,7 @@ public class ParamRead {
 			FileInputStream fls = new FileInputStream("param");
 			BufferedReader br = new BufferedReader(new InputStreamReader(fls));
 			Properties p = new Properties();
-			p.load(fls);
+			p.load(br);
 			value = p.getProperty(name);
 		} catch (Exception e) {
 			throw new RuntimeException(e);
