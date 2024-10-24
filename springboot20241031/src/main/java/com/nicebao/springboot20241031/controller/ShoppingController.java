@@ -18,7 +18,7 @@ import java.util.List;
  * @date: 2024-10-21 22:54
  **/
 @RestController
-@CrossOrigin(origins = "*") // 允许所有源请求，或者指定你的前端地址
+@CrossOrigin(origins = "*")
 @RequestMapping("/api")
 public class ShoppingController {
 
@@ -27,13 +27,15 @@ public class ShoppingController {
 
 	@Autowired
 	private OrderService orderService;
+
 	@Autowired
 	private ProductService productService;
+
 	@GetMapping("/products")
 	public List<Product> getProducts() {
-		// 这里需要调用相应的服务来获取商品列表
 		return productService.getProductList();
 	}
+
 	@PostMapping("/cart/create/{userId}")
 	public Cart createCart(@PathVariable Long userId) {
 		return cartService.createCart(userId);
@@ -54,9 +56,9 @@ public class ShoppingController {
 		return cartService.getCartItems(cartId);
 	}
 
-	@PostMapping("/order/create")
-	public Order createOrder(@RequestBody Cart cart) {
-		return orderService.createOrder(cart);
+	@PostMapping("/order/create/{cartId}")
+	public Order createOrder(@PathVariable Long cartId) {
+		return orderService.createOrder(cartId);
 	}
 
 	@DeleteMapping("/cart/{cartId}/clear")

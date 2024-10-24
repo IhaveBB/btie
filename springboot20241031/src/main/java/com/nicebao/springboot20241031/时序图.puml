@@ -1,0 +1,64 @@
+@startuml
+actor User
+participant "ShoppingController" as Controller
+participant "CartService" as CartSvc
+participant "OrderService" as OrderSvc
+participant "ProductService" as ProdSvc
+participant "Store" as DataStore
+
+User -> Controller : 访问商品列表
+Controller -> ProdSvc : getProductList()
+ProdSvc -> DataStore : 获取商品数据
+DataStore -> ProdSvc : 返回商品数据
+ProdSvc -> Controller : 返回商品列表
+Controller -> User : 显示商品列表
+
+User -> Controller : 创建购物车(userId)
+Controller -> CartSvc : createCart(userId)
+CartSvc -> DataStore : 新建购物车(userId)
+DataStore -> CartSvc : 返回新购物车
+CartSvc -> Controller : 返回购物车
+Controller -> User : 显示购物车信息
+
+User -> Controller : 添加商品到购物车(cartId, item)
+Controller -> CartSvc : addItem(cartId, item)
+CartSvc -> DataStore : 获取购物车(cartId)
+DataStore -> CartSvc : 返回购物车
+CartSvc -> DataStore : 添加商品到购物车
+DataStore -> CartSvc : 更新后的购物车
+CartSvc -> Controller : 返回更新后的购物车
+Controller -> User : 更新购物车信息
+
+User -> Controller : 删除购物车商品(cartId, itemId)
+Controller -> CartSvc : removeItem(cartId, itemId)
+CartSvc -> DataStore : 获取购物车(cartId)
+DataStore -> CartSvc : 返回购物车
+CartSvc -> DataStore : 从购物车中移除商品(itemId)
+DataStore -> CartSvc : 更新后的购物车
+CartSvc -> Controller : 返回更新后的购物车
+Controller -> User : 更新购物车信息
+
+User -> Controller : 完成商品选择，生成订单(cartId)
+Controller -> OrderSvc : createOrder(cartId)
+OrderSvc -> DataStore : 获取购物车(cartId)
+DataStore -> OrderSvc : 返回购物车
+OrderSvc -> DataStore : 计算总金额
+DataStore -> OrderSvc : 返回总金额
+OrderSvc -> DataStore : 创建新订单
+DataStore -> OrderSvc : 返回新订单
+OrderSvc -> CartSvc : 清空购物车(cartId)
+CartSvc -> DataStore : 删除购物车(cartId)
+DataStore -> CartSvc : 购物车已删除
+OrderSvc -> Controller : 返回订单
+Controller -> User : 显示订单信息
+
+User -> Controller : 提交订单
+Controller -> OrderSvc : 确认订单
+OrderSvc -> DataStore : 更新订单状态
+DataStore -> OrderSvc : 返回确认结果
+OrderSvc -> Controller : 订单提交成功
+Controller -> User : 显示提交成功信息
+
+User -> Controller : 退出购物网页
+Controller -> User : 确认退出
+@enduml

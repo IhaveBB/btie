@@ -1,7 +1,6 @@
 package com.nicebao.springboot20241031.service;
 
-import com.nicebao.springboot20241031.Repository.InMemoryStore;
-import com.nicebao.springboot20241031.Repository.OrderRepository;
+import com.nicebao.springboot20241031.Repository.Store;
 import com.nicebao.springboot20241031.model.Cart;
 import com.nicebao.springboot20241031.model.Order;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +14,16 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class OrderService {
-	public Order createOrder(Cart cart) {
+
+	@Autowired
+	private CartService cartService;
+
+	public Order createOrder(Long cartId) {
+		Cart cart = Store.getCarts().get(cartId);
+		if (cart == null) {
+			throw new IllegalArgumentException("购物车不能为空");
+		}
+
 		Order order = new Order();
 		order.setId(System.currentTimeMillis());
 		order.setUserId(cart.getUserId());
@@ -23,12 +31,14 @@ public class OrderService {
 		order.setTotalAmount(cart.getItems().stream()
 				.mapToDouble(item -> item.getQuantity() * getProductPrice(item.getProductId()))
 				.sum());
-		InMemoryStore.getOrders().put(order.getId(), order);
+
+		Store.getOrders().put(order.getId(), order);
+		cartService.clearCart(cartId);
+
 		return order;
 	}
 
 	private double getProductPrice(Long productId) {
-		return InMemoryStore.getProducts().get(productId).getPrice();
+		return Store.getProducts().get(productId).getPrice();
 	}
 }
-
