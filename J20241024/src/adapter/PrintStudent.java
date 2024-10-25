@@ -1,5 +1,7 @@
+package adapter;
+
 /**
- * @name: PrintStudent
+ * @name: adapter.PrintStudent
  * @author: IhaveBB
  * @date: 2024-10-24 19:36
  **/

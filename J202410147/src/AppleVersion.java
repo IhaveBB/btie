@@ -6,7 +6,7 @@
 public class AppleVersion  implements Product {
 	@Override
 	public String getVersion() {
-		return "Apple Version";
+		return "Apple 版本";
 	}
 
 }

@@ -6,6 +6,6 @@
 public class HomosVersion implements Product {
 	@Override
 	public String getVersion() {
-		return "Homos Version";
+		return "Homos 版本";
 	}
 }
