@@ -17,10 +17,6 @@
         SELECT * FROM login_logs
         ORDER BY login_time DESC
     </select>
-    <select id="getAllOperationLogs" resultType="com.nicebao.model.OperationLog">
-        select * from user_action_logs
-        ORDER BY action_time DESC;
-    </select>
 
     <insert id="insertLoginLog" parameterType="com.nicebao.model.LoginLog">
         INSERT INTO login_logs (user_id, login_time, login_ip) VALUES (#{userId}, #{loginTime}, #{loginIp});

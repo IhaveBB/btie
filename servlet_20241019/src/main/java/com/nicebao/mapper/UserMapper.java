@@ -1,7 +1,6 @@
 package com.nicebao.mapper;
 
 import com.nicebao.model.LoginLog;
-import com.nicebao.model.OperationLog;
 import com.nicebao.model.User;
 import com.nicebao.model.UserActionLog;
 
@@ -22,5 +21,4 @@ public interface UserMapper {
 
 	void insertUserActionLog(UserActionLog actionLog);
 
-	List<OperationLog> getAllOperationLogs();
 }

@@ -1,10 +1,9 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="com.nicebao.model.User" %>
-<%@ page import="java.util.Date" %>
 <%@ page import="com.nicebao.listener.OnlineUserListener" %>
 <%
     User user = (User) session.getAttribute("user");
-    String lastLoginTime = user.getLastLoginTime() != null ? user.getLastLoginTime().toString() : "Never";
+    String lastLoginTime = user.getLastLoginTime() != null ? user.getLastLoginTime().toString() : "从未登录";
     String currentIp = request.getRemoteAddr();
 %>
 <!DOCTYPE html>
@@ -12,44 +11,46 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Welcome</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <title>欢迎</title>
     <style>
         body {
-            background-color: #f8f9fa;
-            background-size: cover;
-            background-repeat: no-repeat;
-            height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(to right, #4facfe, #00f2fe);
+            margin: 0;
+            padding: 20px;
+            color: #333;
         }
-        .container {
+        h1 {
             text-align: center;
-            padding: 30px;
-            border-radius: 8px;
-            background-color: rgba(255, 255, 255, 0.9);
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
         }
-        .btn-primary:hover {
+        p {
+            font-size: 16px;
+            text-align: center;
+            margin: 10px 0;
+            color: #555;
+        }
+        a {
+            display: inline-block;
+            margin: 10px auto;
+            padding: 10px 15px;
+            background-color: #007BFF;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+        a:hover {
             background-color: #0056b3;
-            border-color: #004085;
-        }
-        .btn-danger:hover {
-            background-color: #c82333;
-            border-color: #bd2130;
         }
     </style>
 </head>
 <body>
-<div class="container">
-    <h1>欢迎, <%= user.getUsername() %>!</h1>
-    <p class="text-center">在线人数: ${OnlineUserListener.getOnlineCount()}</p>
-    <p>上次登录时间: <%= lastLoginTime %></p>
-    <p>当前 IP 地址: <%= currentIp %></p>
-    <a href="${pageContext.request.contextPath}/logs" class="btn btn-primary">查看登录日志</a>
-    <a href="${pageContext.request.contextPath}/admin" class="btn btn-primary">管理员页面</a>
-    <a href="${pageContext.request.contextPath}/logout" class="btn btn-danger">退出登录</a>
-</div>
+<h1>欢迎, <%= user.getUsername() %>!</h1>
+<p>在线人数: ${OnlineUserListener.getOnlineCount()}</p>
+<p>上次登录时间: <%= lastLoginTime %></p>
+<p>当前 IP 地址: <%= currentIp %></p>
+<a href="${pageContext.request.contextPath}/logs">查看登录日志</a>
+<a href="${pageContext.request.contextPath}/logout">退出登录</a>
 </body>
 </html>

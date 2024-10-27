@@ -35,9 +35,6 @@ public class AuthFilter implements Filter {
 		String registerURI = httpRequest.getContextPath() + "/register.jsp";
 		String loginActionURI = httpRequest.getContextPath() + "/login";
 		String registerActionURI = httpRequest.getContextPath() + "/register";
-		String adminURI = httpRequest.getContextPath() + "/admin.jsp";
-		String adminActionURI = httpRequest.getContextPath() + "/admin";
-
 		String welcomeURL = httpRequest.getContextPath()+"/welcome.jsp";
 		boolean loggedIn = (session != null && session.getAttribute("user") != null);
 		User user = (loggedIn) ? (User) session.getAttribute("user") : null;
@@ -47,11 +44,6 @@ public class AuthFilter implements Filter {
 				httpRequest.getRequestURI().equals(registerURI) ||
 				httpRequest.getRequestURI().equals(loginActionURI) ||
 				httpRequest.getRequestURI().equals(registerActionURI)) {
-			if ((httpRequest.getRequestURI().equals(adminURI)||httpRequest.getRequestURI().equals(adminActionURI)) && (user == null || !user.isAdmin())) {
-				// 普通用户访问管理员页面，重定向
-				((HttpServletResponse) response).sendRedirect(welcomeURL);
-				return;
-			}
 			//记录登录用户的访问记录
 			logUserAction((HttpServletRequest) request);
 			chain.doFilter(request, response);
