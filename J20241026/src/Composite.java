@@ -20,10 +20,11 @@ public class Composite implements Component{
 
 	@Override
 	public void click() {
-			for (Component child : children) {
-				System.out.print(child.getName() + " ");
-			}
-			System.out.println();
+		System.out.print(name + "输出：");
+		for (Component child : children) {
+			System.out.print(child.getName() + " ");
+		}
+		System.out.println();
 	}
 
 	@Override
