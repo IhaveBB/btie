@@ -36,9 +36,9 @@ public class BlogController {
 			* @author: IhaveBB
 			* @date: 2024/4/17
 			*/
-	@RequestMapping("/queryBlogDetail")
+	@RequestMapping("/getBlogDetail")
 	public BlogInfo queryBlogDetail(Integer blogId,HttpServletRequest request){
-		log.info("queryBlogDetail,接收参数blogId",+blogId);
+		log.info("getBlogDetail,接收参数blogId",+blogId);
 		BlogInfo blogInfo = blogService.queryBlogDetail(blogId);
 		//判断登陆用户是否是作者
 		String user_token = request.getHeader(Constant.USER_TOKEN_HEADER);

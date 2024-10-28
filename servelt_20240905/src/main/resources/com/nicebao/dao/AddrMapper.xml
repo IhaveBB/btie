@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.nicebao.dao.AddrMapper">
+    <insert id="saveLeaveRequest" parameterType="com.nicebao.model.LeaveRequest">
+        INSERT INTO leave_requests (student_name, student_id, contact, leave_reason, leave_start_date, leave_end_date)
+        VALUES (#{studentName}, #{studentId}, #{contact}, #{leaveReason}, #{leaveStartDate}, #{leaveEndDate})
+    </insert>
+</mapper>

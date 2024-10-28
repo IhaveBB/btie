@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nicebao.mapper.InfoMapper">
+
+    <insert id="insertInfo" parameterType="com.nicebao.model.Info">
+        INSERT INTO info (name, student_id, phone_number, leave_reason, predict_leave_time, predict_return_time, submit_time, update_time, status, proof_path)
+        VALUES (#{name}, #{studentId}, #{phoneNumber}, #{leaveReason}, #{predictLeaveTime}, #{predictReturnTime}, #{submitTime}, #{updateTime}, #{status}, #{proofPath})
+    </insert>
+
+    <select id="getInfoById" resultType="com.nicebao.model.Info">
+        SELECT * FROM info WHERE id = #{id}
+    </select>
+    <select id="getAllInfo" resultType="com.nicebao.model.Info">
+        select * from info;
+    </select>
+
+</mapper>

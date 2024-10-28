@@ -1,0 +1,61 @@
+@startuml
+left to right direction
+actor User
+
+rectangle "购物系统" {
+    rectangle "Controller" {
+        usecase "浏览商品" as UC1
+        usecase "创建购物车" as UC2
+        usecase "查看购物车" as UC3
+        usecase "更新购物车" as UC4
+        usecase "添加商品到购物车" as UC5
+        usecase "删除购物车商品" as UC6
+        usecase "生成订单" as UC7
+        usecase "提交订单" as UC8
+        usecase "退出购物网页" as UC9
+    }
+
+    rectangle "Service" {
+        usecase "购物车服务" as UC10
+        usecase "订单服务" as UC11
+        usecase "产品服务" as UC12
+    }
+
+    rectangle "Model" {
+        usecase "Cart" as UC13
+        usecase "CartItem" as UC14
+        usecase "Order" as UC15
+        usecase "Product" as UC16
+        usecase "User" as UC17
+    }
+
+    UC2 --> UC3 : <<include>>
+    UC5 --> UC3 : <<include>>
+    UC6 --> UC3 : <<include>>
+    UC7 --> UC8 : <<include>>
+
+    UC1 --> UC12 : <<uses>>
+    UC2 --> UC10 : <<uses>>
+    UC3 --> UC10 : <<uses>>
+    UC4 --> UC10 : <<uses>>
+    UC5 --> UC10 : <<uses>>
+    UC6 --> UC10 : <<uses>>
+    UC7 --> UC11 : <<uses>>
+    UC8 --> UC11 : <<uses>>
+
+    UC10 --> UC13 : <<manages>>
+    UC10 --> UC14 : <<manages>>
+    UC11 --> UC15 : <<manages>>
+    UC11 --> UC16 : <<uses>>
+}
+
+User --> UC1
+User --> UC2
+User --> UC3
+User --> UC4
+User --> UC5
+User --> UC6
+User --> UC7
+User --> UC8
+User --> UC9
+@enduml

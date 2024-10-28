@@ -6,6 +6,7 @@ import com.nicebao.springblog.model.Result;
 import com.nicebao.springblog.model.UserInfo;
 import com.nicebao.springblog.service.UserService;
 import com.nicebao.springblog.utils.JWTUtils;
+import com.nicebao.springblog.utils.SecurityUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
@@ -34,7 +35,12 @@ public class UserController {
 		if(userInfo == null || userInfo.getId() < 0){
 			return Result.fail("用户不存在");
 		}
-		if(!password.equals(userInfo.getPassword())){
+
+
+//		if(!password.equals(userInfo.getPassword())){
+//			return Result.fail("密码错误");
+//		}
+		if (!SecurityUtils.verify(password, userInfo.getPassword())){
 			return Result.fail("密码错误");
 		}
 		Map<String,Object> map = new HashMap<>();
