@@ -1,8 +1,5 @@
 package com.nicebao.state2;
 
-import com.nicebao.state2.GreenState;
-import com.nicebao.state2.RedState;
-import com.nicebao.state2.YellowState;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -13,6 +10,9 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 
+/**
+ * @author IhaveBB
+ */
 public class TrafficLightGUI extends Application {
 	private Circle redLight;
 	private Circle yellowLight;
