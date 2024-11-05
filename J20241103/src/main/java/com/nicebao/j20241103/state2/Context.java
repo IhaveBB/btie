@@ -15,14 +15,11 @@ public class Context {
 		this.state = state;
 	}
 
-	public void print() {
-		state.print();
-	}
 	public void switchButton() {
-		state.switchButton();
+		state.switchButton(this);
 	}
 
 	public Context() {
-		this.state = new GreenState(this);
+		state = new GreenState();
 	}
 }

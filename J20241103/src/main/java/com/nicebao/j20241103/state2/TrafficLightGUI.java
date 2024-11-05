@@ -27,7 +27,7 @@ public class TrafficLightGUI extends Application {
 		yellowLight = createLight(Color.YELLOW);
 		greenLight = createLight(Color.GREEN);
 
-		Button switchButton = new Button("Switch Light");
+		Button switchButton = new Button("切换信号灯");
 		switchButton.setStyle("-fx-background-color: #007BFF; -fx-text-fill: white; -fx-font-size: 14px; -fx-padding: 10px; -fx-font-weight: bold;");
 		switchButton.setOnAction(e -> {
 			context.switchButton();
@@ -37,13 +37,10 @@ public class TrafficLightGUI extends Application {
 		VBox vbox = new VBox(10, redLight, yellowLight, greenLight, switchButton);
 		vbox.setAlignment(Pos.CENTER);
 		vbox.setPadding(new Insets(20));
-		vbox.setBackground(new Background(new BackgroundFill(Color.LIGHTGRAY, null, null))); // 设置背景颜色
-
+		vbox.setBackground(new Background(new BackgroundFill(Color.LIGHTGRAY, null, null)));
 		Scene scene = new Scene(vbox, 200, 400);
-		primaryStage.setTitle("Traffic Light");
 		primaryStage.setScene(scene);
 		primaryStage.show();
-
 		updateLights();
 	}
 

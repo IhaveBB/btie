@@ -5,15 +5,13 @@ package com.nicebao.j20241103.state2;
  * @author: IhaveBB
  * @date: 2024-11-04 20:31
  **/
-public class YellowState extends TrafficLightState {
-	public YellowState(Context context) {
-		super(context);
-		name="黄灯";
-	}
+public class YellowState implements TrafficLightState {
 
 	@Override
-	public void switchButton() {
+	public void switchButton(Context context) {
 		System.out.println("信号灯变为绿色。");
-		super.context.setState(new GreenState(context));
+		context.setState(new GreenState());
 	}
+
+
 }
