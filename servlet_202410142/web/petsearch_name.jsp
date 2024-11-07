@@ -67,6 +67,12 @@
         .footer a:hover {
             text-decoration: underline;
         }
+        .pagination-container {
+            margin-top: 20px;
+        }
+        .pagination-container .btn {
+            margin: 0 5px;
+        }
     </style>
 </head>
 <body>
@@ -74,7 +80,7 @@
 <div class="container">
     <div class="header">
         <a class="quit" href="servlet.QuitServlet">退出</a>
-        <h1>宠物诊所应用</h1>
+        <h1>宠物管理系统</h1>
         <ul class="nav justify-content-center">
             <li class="nav-item"><a class="nav-link" href="petsearch.jsp">宠物</a></li>
         </ul>
@@ -105,21 +111,23 @@
         </tbody>
     </table>
 
-    <div class="row">
-        <div class="col-12 text-center">
-            <form action="petsearch.jsp" method="post">
-                <button type="submit" class="btn btn-secondary">重新查询</button>
-            </form>
-        </div>
+    <!-- 分页控制部分 -->
+    <div class="pagination-container text-center">
+        <c:if test="${currentPage > 1}">
+            <a href="petsearch_name.jsp?page=${currentPage - 1}" class="btn btn-primary">上一页</a>
+        </c:if>
+
+        <span>第 ${currentPage} 页 / 共 ${totalPages} 页</span>
+
+        <c:if test="${currentPage < totalPages}">
+            <a href="petsearch_name.jsp?page=${currentPage + 1}" class="btn btn-primary">下一页</a>
+        </c:if>
     </div>
 
+    <!-- 提示信息部分 -->
     <c:forEach items="${listFb}" var="info">
         <div class="message">${info.mess}</div>
     </c:forEach>
-</div>
-
-<div class="footer">
-    <p>©郑州轻工业大学版权所有</p>
 </div>
 
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>

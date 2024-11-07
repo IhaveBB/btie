@@ -8,15 +8,17 @@ import com.nicebao.util.Conn;
 import java.util.ArrayList;
 
 /**
- * @author cc
- * @data 2020/6/10 - 14:33
- */
+ * @description:
+ * @param:
+ * @return:
+ * @author: IhaveBB
+ * @date: 2024/11/5
+ **/
 public class OwnerDAO {
 
     Conn cn;
     ArrayList<PetOwner> arrayList;
 
-    //获取宠物所有人信息
     public ArrayList<PetOwner> viewOwner(String ownerName){
         PetOwner petOwner;
         cn = new Conn();
@@ -41,7 +43,7 @@ public class OwnerDAO {
         return arrayList;
     }
 
-    //修改宠物所有人信息
+
     public void updateOwner(PetOwner petOwner){
         cn = new Conn();
         String sql = "update owners set name=?,address=?,city=?,telephone=? where id = '"+petOwner.getId()+"'";
@@ -59,7 +61,7 @@ public class OwnerDAO {
         cn.close();
     }
 
-    //增加新客户信息
+
     public void addPerson(PetOwner po){
         cn = new Conn();
         String sql = "insert into owners (name,address,city,telephone) value (?,?,?,?)";
@@ -77,7 +79,7 @@ public class OwnerDAO {
         cn.close();
     }
 
-    //获取owners表中所有客户的姓名，供添加宠物信息时使用
+
     public ArrayList<PetOwner> getOwnerSelect(){
         cn = new Conn();
         PetOwner po;

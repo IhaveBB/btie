@@ -8,9 +8,12 @@ import com.nicebao.util.Conn;
 import java.util.ArrayList;
 
 /**
- * @author cc
- * @data 2020/6/11 - 17:11
- */
+* @description:
+* @param:
+* @return:
+* @author: IhaveBB
+* @date: 2024/11/5
+**/
 public class VisitDAO {
 
     ArrayList<PetVisit> arrayList = new ArrayList<PetVisit>();

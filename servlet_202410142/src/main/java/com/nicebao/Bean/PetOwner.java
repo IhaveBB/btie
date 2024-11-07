@@ -1,9 +1,12 @@
 package com.nicebao.Bean;
 
 /**
- * @author cc
- * @data 2020/6/10 - 14:32
- */
+* @description:
+* @param:
+* @return:
+* @author: IhaveBB
+* @date: 2024/11/5
+**/
 public class PetOwner {
 
     private int id;

@@ -55,14 +55,40 @@
         <url-pattern>/servlet.PetVisitServlet</url-pattern>
     </servlet-mapping>
 
-    <!--test-->
     <servlet>
-        <servlet-name>testServlet</servlet-name>
-        <servlet-class>com.nicebao.servlet.testServlet</servlet-class>
+        <servlet-name>LogoutServlet</servlet-name>
+        <servlet-class>com.nicebao.servlet.QuitServlet</servlet-class>
     </servlet>
     <servlet-mapping>
-        <servlet-name>testServlet</servlet-name>
-        <url-pattern>/servlet.testServlet</url-pattern>
+        <servlet-name>LogoutServlet</servlet-name>
+        <url-pattern>/servlet.LogoutServlet</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>RegisterServlet</servlet-name>
+        <servlet-class>com.nicebao.servlet.RegisterServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>RegisterServlet</servlet-name>
+        <url-pattern>/servlet.RegisterServlet</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>LoginLogServlet</servlet-name>
+        <servlet-class>com.nicebao.servlet.LoginLogServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>LoginLogServlet</servlet-name>
+        <url-pattern>/servlet.LoginLogServlet</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>UserActionLogServlet</servlet-name>
+        <servlet-class>com.nicebao.servlet.UserActionLogServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>UserActionLogServlet</servlet-name>
+        <url-pattern>/servlet.UserActionLogServlet</url-pattern>
     </servlet-mapping>
 
     <jsp-config>
@@ -75,5 +101,25 @@
             <taglib-location>/WEB-INF/c-1_0-rt.tld</taglib-location>
         </taglib>
     </jsp-config>
+    <filter>
+        <filter-name>LoginInterceptor</filter-name>
+        <filter-class>com.nicebao.filter.LoginInterceptor</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>LoginInterceptor</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+    <filter>
+        <filter-name>UserActionFilter</filter-name>
+        <filter-class>com.nicebao.filter.UserActionFilter</filter-class>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>UserActionFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+
 
 </web-app>

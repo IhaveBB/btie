@@ -71,7 +71,7 @@
 <div class="container">
     <div class="header">
         <a class="quit" href="servlet.QuitServlet">退出</a>
-        <h1>宠物诊所应用</h1>
+        <h1>宠物管理系统</h1>
         <ul class="nav justify-content-center">
             <li class="nav-item"><a class="nav-link" href="petsearch.jsp">宠物</a></li>
         </ul>
@@ -120,9 +120,7 @@
 
 </div>
 
-<div class="footer">
-    <p>©郑州轻工业大学版权所有</p>
-</div>
+
 
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>

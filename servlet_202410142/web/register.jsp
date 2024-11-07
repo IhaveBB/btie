@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>宠物管理系统登录</title>
+    <title>宠物诊所系统注册</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
         body {
@@ -14,7 +14,7 @@
             justify-content: center;
             align-items: center;
         }
-        .login-card {
+        .register-card {
             background-color: #fff;
             padding: 30px;
             border-radius: 15px;
@@ -22,7 +22,7 @@
             width: 100%;
             max-width: 400px;
         }
-        .login-card h1 {
+        .register-card h1 {
             color: #4e54c8;
             text-align: center;
             margin-bottom: 30px;
@@ -44,23 +44,23 @@
             text-align: center;
             margin-top: 10px;
         }
-        .login-footer {
+        .register-footer {
             text-align: center;
             color: #777;
             margin-top: 20px;
         }
-        .login-footer a {
+        .register-footer a {
             color: #4e54c8;
         }
-        .login-footer a:hover {
+        .register-footer a:hover {
             text-decoration: underline;
         }
     </style>
 </head>
 <body>
-<div class="login-card">
-    <h1>宠物管理系统登录</h1>
-    <form action="servlet.EmpServlet" method="post">
+<div class="register-card">
+    <h1>宠物管理系统</h1>
+    <form action="servlet.RegisterServlet" method="post">
         <div class="form-group">
             <label for="username">用户名</label>
             <input type="text" class="form-control" id="username" name="username" required>
@@ -69,18 +69,27 @@
             <label for="password">密&nbsp;&nbsp;码</label>
             <input type="password" class="form-control" id="password" name="password" required>
         </div>
+        <div class="form-group">
+            <label for="confirmPassword">确认密码</label>
+            <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" required>
+        </div>
         <div class="form-group row">
             <div class="col-6">
-                <input type="submit" class="btn btn-primary btn-block" value="登录">
+                <input type="submit" class="btn btn-primary btn-block" value="注册">
             </div>
             <div class="col-6">
                 <input type="reset" class="btn btn-secondary btn-block" value="重置">
             </div>
         </div>
     </form>
+
     <c:forEach items="${listFb}" var="info">
         <div class="error-message">${info.mess}</div>
     </c:forEach>
+
+    <div class="register-footer">
+        <p><a href="login.jsp">已有账户？点击这里登录</a></p>
+    </div>
 </div>
 
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>

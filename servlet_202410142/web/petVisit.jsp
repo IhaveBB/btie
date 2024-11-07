@@ -77,13 +77,12 @@
 <div class="container">
     <div class="header">
         <a class="quit" href="servlet.QuitServlet">退出</a>
-        <h1>宠物诊所应用</h1>
+        <h1>宠物管理系统</h1>
         <ul class="nav justify-content-center">
             <li class="nav-item"><a class="nav-link" href="petsearch.jsp">宠物</a></li>
         </ul>
     </div>
 
-    <!-- 宠物基本信息展示 -->
     <table class="table table-bordered table-striped">
         <c:forEach items="${visitOwner}" var="mess">
             <tr>
@@ -101,7 +100,6 @@
         </c:forEach>
     </table>
 
-    <!-- 诊断信息展示 -->
     <table class="table table-bordered table-striped">
         <thead>
         <tr>
@@ -119,19 +117,15 @@
         </tbody>
     </table>
 
-    <!-- 提示信息展示 -->
     <c:forEach items="${listFb}" var="info">
         <div class="alert alert-info" role="alert">${info.mess}</div>
     </c:forEach>
 
-    <!-- 返回按钮 -->
     <form action="petsearch.jsp" method="post">
         <button type="submit" class="btn btn-primary btn-block">返回</button>
     </form>
 
-    <div class="footer">
-        <p>©郑州轻工业大学版权所有</p>
-    </div>
+
 </div>
 
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>

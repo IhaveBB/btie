@@ -6,9 +6,12 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
 /**
- * @author cc
- * @data 2020/6/8 - 17:27
- */
+* @description:
+* @param:
+* @return:
+* @author: IhaveBB
+* @date: 2024/11/6
+**/
 public class Conn {
 
     final String JDBC_DRIVER = "com.mysql.cj.jdbc.Driver";

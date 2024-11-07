@@ -8,9 +8,12 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 
 /**
- * @author cc
- * @data 2020/6/13 - 14:30
- */
+* @description:
+* @param:
+* @return:
+* @author: IhaveBB
+* @date: 2024/11/6
+**/
 public class FBK {
 
     public void setFeedBack(String mess, HttpServletRequest req){

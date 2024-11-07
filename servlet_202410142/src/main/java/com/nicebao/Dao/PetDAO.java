@@ -9,9 +9,12 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 /**
- * @author cc
- * @data 2020/6/9 - 20:40
- */
+* @description:
+* @param:
+* @return:
+* @author: IhaveBB
+* @date: 2024/11/5
+**/
 public class PetDAO {
 
     Pet pt;
@@ -29,7 +32,7 @@ public class PetDAO {
             strName2 = new String[21];
             id = searchName(ownerName);
             Conn cn = new Conn();
-            //根据所有人名查询其宠物
+
             for (int i = 0; id[i]!=0 ; i++) {
                 try {
                     sql = "select * from pets where owner_id = "+id[i];
@@ -60,7 +63,6 @@ public class PetDAO {
             strName = new String[21];
             id = searchPetName(petName);
             Conn cn = new Conn();
-            //根据宠物名查询其所有人
             try {
                 for (int i = 0; id[i]!=0 ; i++) {
                     sql = "select * from owners where id = "+id[i];
@@ -86,7 +88,7 @@ public class PetDAO {
         return arrayList;
     }
 
-    //searchOOP方法的子功能方法
+
     public int[] searchName(String name){
 
         int i = 0;
@@ -109,7 +111,7 @@ public class PetDAO {
         return id;
     }
 
-    //searchOOP方法的子功能方法
+
     public int[] searchPetName(String petName){
         int i = 0;
         int[] id = new int[21];
@@ -131,8 +133,6 @@ public class PetDAO {
         return id;
     }
 
-
-    //获取宠物信息
     public ArrayList<Pet> petMess(String petname){
         Conn cn = new Conn();
         String typeid,ownerid;
@@ -157,7 +157,7 @@ public class PetDAO {
         return arrayList;
     }
 
-    //配合petMess方法，根据指定宠物的owner_id获取其所有人的姓名，并返回
+
     public String getOwnerName(String ownerId){
         Conn cn = new Conn();
         String name="";
@@ -175,7 +175,7 @@ public class PetDAO {
         return name;
     }
 
-    //配合petMess方法，根据指定宠物的type_id获取其种类的名称，并返回
+
     public String getType(String typeId){
         Conn cn = new Conn();
         String type="";
@@ -193,7 +193,7 @@ public class PetDAO {
         return type;
     }
 
-    //修改宠物信息
+
     public void petUpdate(Pet pet){
 
         Conn cn = new Conn();
@@ -213,7 +213,7 @@ public class PetDAO {
         cn.close();
     }
 
-    //获取所有宠物种类
+
     public ArrayList<Pet> getTypeSelect(){
         Conn cn = new Conn();
         ArrayList<Pet> ptTy = new ArrayList<Pet>();
@@ -233,7 +233,7 @@ public class PetDAO {
         return ptTy;
     }
 
-    //增加新宠物信息
+
     public void addPet(Pet pet){
         Conn cn = new Conn();
         String sql = "insert into pets (name,birth_date,type_id,owner_id) value " +
@@ -250,7 +250,6 @@ public class PetDAO {
         cn.close();
     }
 
-    //获取所有宠物名称
     public ArrayList<Pet> getPNSelect(){
         Conn cn = new Conn();
         ArrayList<Pet> apt = new ArrayList<Pet>();
@@ -271,14 +270,19 @@ public class PetDAO {
     }
 
 
-    public ArrayList<Pet> allPet(){
+    public ArrayList<Pet> allPet(int page, int pageSize) {
+        ArrayList<Pet> arrayList = new ArrayList<>();
         int[] id = getPetOwnerId();
         Conn cn = new Conn();
-        strName = new String[21];
+        String[] strName = new String[21];
         try {
-            for (int j = 0; id[j]!=0; j++) {
-                String sql = "select * from owners where id = "+id[j];
+            int offset = (page - 1) * pageSize;
+            for (int j = 0; id[j] != 0; j++) {
+                String sql = "SELECT * FROM owners WHERE id = ? LIMIT ? OFFSET ?";
                 cn.pr = cn.cn.prepareStatement(sql);
+                cn.pr.setInt(1, id[j]);
+                cn.pr.setInt(2, pageSize);
+                cn.pr.setInt(3, offset);
                 cn.rs = cn.pr.executeQuery();
                 while (cn.rs.next()) {
                     strName[j] = cn.rs.getString("name");
@@ -287,17 +291,19 @@ public class PetDAO {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        for (int i = 0; strName[i]!=null; i++) {
-            pt = new Pet();
+
+        for (int i = 0; strName[i] != null; i++) {
+            Pet pt = new Pet();
             pt.setOwnerName(strName[i]);
             pt.setName(strPet[i]);
             arrayList.add(pt);
-            System.out.println(strName[i]+strPet[i]);
         }
+
         cn.close();
         return arrayList;
-
     }
+
+
 
     public int[] getPetOwnerId(){
         int i = 0;
@@ -320,7 +326,7 @@ public class PetDAO {
         return id;
     }
 
-    //删除单个宠物信息
+
     public void delPet(String petName, String ownerName){
         System.out.println(petName+"pet");
         delConn(petName);
@@ -367,7 +373,7 @@ public class PetDAO {
         cn.close();
     }
 
-    //通过宠物id获取visit的id
+
     public void getPetId(int petId){
         int i = 0;
         int[] id = new int[21];
@@ -385,7 +391,7 @@ public class PetDAO {
         cn.close();
     }
 
-    //删除宠物的访问记录
+
     public void delVisit(int petId){
         Conn cn = new Conn();
         String sql = "delete from visits where pet_id = "+petId;
@@ -398,5 +404,23 @@ public class PetDAO {
         }
         cn.close();
     }
+
+    public int getTotalPetCount() {
+        int count = 0;
+        Conn cn = new Conn();
+        try {
+            String sql = "SELECT COUNT(*) FROM pets";
+            cn.pr = cn.cn.prepareStatement(sql);
+            cn.rs = cn.pr.executeQuery();
+            if (cn.rs.next()) {
+                count = cn.rs.getInt(1);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        cn.close();
+        return count;
+    }
+
 
 }
