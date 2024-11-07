@@ -37,7 +37,6 @@
 
             <td>${log.substring(log.indexOf("登录时间: ") + 5, log.indexOf(" | 登录状态"))}</td>
 
-            <td>${log.substring(log.indexOf("登录状态: ") + 5)}</td>
         </tr>
     </c:forEach>
     </tbody>

@@ -5,24 +5,35 @@ import com.nicebao.Dao.EmpDAO;
 import com.nicebao.util.Conn;
 import com.nicebao.util.FBK;
 
-import javax.servlet.ServletException;
+import javax.servlet.*;
 import javax.servlet.http.*;
 import java.io.IOException;
+
 /**
 * @description:
 * @param:
 * @return:
 * @author: IhaveBB
-* @date: 2024/11/5
+* @date: 2024/11/7
 **/
 public class RegisterServlet extends HttpServlet {
+
+	private EmpDAO empDAO;
+	private FBK fbk;
+
+	public RegisterServlet(EmpDAO empDAO, FBK fbk) {
+		this.empDAO = empDAO;
+		this.fbk = fbk;
+	}
+
+	public RegisterServlet() {
+		this.empDAO = new EmpDAO(new Conn());
+		this.fbk = new FBK();
+	}
 
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		req.setCharacterEncoding("UTF-8");
-		Conn cn = new Conn();
-		FBK fbk = new FBK();
-		EmpDAO ed = new EmpDAO();
 		Employee ep = new Employee();
 		ep.setName(req.getParameter("username"));
 		ep.setPassword(req.getParameter("password"));
@@ -34,7 +45,8 @@ public class RegisterServlet extends HttpServlet {
 			req.getRequestDispatcher("register.jsp").forward(req, resp);
 			return;
 		}
-		boolean success = ed.register(ep);
+
+		boolean success = empDAO.register(ep);
 
 		if (success) {
 			fbk.setFeedBack("注册成功！请登录", req);
@@ -43,8 +55,6 @@ public class RegisterServlet extends HttpServlet {
 			fbk.setFeedBack("用户名已存在，请选择其他用户名", req);
 			req.getRequestDispatcher("register.jsp").forward(req, resp);
 		}
-
-		cn.close();
 	}
 
 	@Override

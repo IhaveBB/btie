@@ -36,4 +36,12 @@ public class Employee {
     public void setRole(String role) {
         this.role = role;
     }
+
+    public Employee(String name, String password) {
+        this.name = name;
+        this.password = password;
+    }
+    public Employee() {
+
+    }
 }

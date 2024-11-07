@@ -1,53 +1,58 @@
 package com.nicebao.util;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
+import java.sql.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
-* @description:
-* @param:
-* @return:
-* @author: IhaveBB
-* @date: 2024/11/6
-**/
-public class Conn {
+ * @description: 处理数据库连接的工具类
+ * @author: IhaveBB
+ * @date: 2024/11/6
+ **/
+public class Conn implements AutoCloseable {
 
-    final String JDBC_DRIVER = "com.mysql.cj.jdbc.Driver";
-    final String DB_URL = "jdbc:mysql://localhost:3306/petclinic?useSSL=false&serverTimezone=UTC";
-    final String USER = "root";
-    final String PASS = "123456";
+	private static final Logger logger = LoggerFactory.getLogger(Conn.class);
 
-    public Connection cn = null;
-    public PreparedStatement pr = null;
-    public ResultSet rs = null;
+	private static final String JDBC_DRIVER = "com.mysql.cj.jdbc.Driver";
+	private static final String DB_URL = "jdbc:mysql://localhost:3306/petclinic?useSSL=false&serverTimezone=UTC";
+	private static final String USER = "root";
+	private static final String PASS = "123456";
 
-    public Conn() {
+	public Connection cn = null;
+	public PreparedStatement pr = null;
+	public ResultSet rs = null;
 
-        try {
-            Class.forName(JDBC_DRIVER);
-            cn = DriverManager.getConnection(DB_URL,USER,PASS);
-        }catch (Exception e){
-            e.printStackTrace();
-        }
+	public Connection getCn() {
+		return cn;
+	}
 
-    }
+	public Conn() {
+		try {
+			Class.forName(JDBC_DRIVER);
+			cn = DriverManager.getConnection(DB_URL, USER, PASS);
+		} catch (Exception e) {
+			logger.error("数据库连接失败", e);
+		}
+	}
 
-    public void close(){
-        try {
-            if (cn!=null) {
-				cn.close();
-			}
-            if (pr!=null) {
-				pr.close();
-			}
-            if (rs!=null) {
+	public Connection getConnection() {
+		return cn;
+	}
+
+	@Override
+	public void close() {
+		try {
+			if (rs != null) {
 				rs.close();
 			}
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-    }
-
+			if (pr != null) {
+				pr.close();
+			}
+			if (cn != null) {
+				cn.close();
+			}
+		} catch (SQLException e) {
+			logger.error("关闭数据库资源失败", e);
+		}
+	}
 }

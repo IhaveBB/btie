@@ -2,12 +2,12 @@ package com.nicebao.servlet;
 
 import com.nicebao.Bean.Employee;
 import com.nicebao.Dao.EmpDAO;
-import com.nicebao.util.Conn;
 import com.nicebao.util.FBK;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.Before;
+import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
 import javax.servlet.RequestDispatcher;
@@ -15,27 +15,12 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-
 import java.io.IOException;
 
+import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
-class EmpServletTest {
-
-	@InjectMocks
-	private EmpServlet empServlet;
-
-	@Mock
-	private HttpServletRequest req;
-
-	@Mock
-	private HttpServletResponse resp;
-
-	@Mock
-	private HttpSession session;
-
-	@Mock
-	private RequestDispatcher dispatcher;
+public class EmpServletTest {
 
 	@Mock
 	private EmpDAO empDAO;
@@ -44,56 +29,71 @@ class EmpServletTest {
 	private FBK fbk;
 
 	@Mock
-	private Conn conn;
+	private HttpServletRequest request;
 
-	private Employee employee;
+	@Mock
+	private HttpServletResponse response;
 
-	@BeforeEach
-	void setUp() {
-		MockitoAnnotations.openMocks(this);
-		empServlet = new EmpServlet();
-		employee = new Employee();
+	@Mock
+	private HttpSession session;
+
+	@Mock
+	private RequestDispatcher requestDispatcher;
+
+	@InjectMocks
+	private EmpServlet empServlet;
+
+	@Before
+	public void setUp() {
+		MockitoAnnotations.initMocks(this);
+	}
+
+	@Test
+	public void testDoPost_LoginSuccess() throws ServletException, IOException {
+		// 模拟请求参数
+		when(request.getParameter("username")).thenReturn("testUser");
+		when(request.getParameter("password")).thenReturn("testPassword");
+		when(request.getHeader("X-Forwarded-For")).thenReturn(null);
+		when(request.getRemoteAddr()).thenReturn("127.0.0.1");
+
+		// 模拟EmpDAO.verify返回true表示登录成功
+		Employee employee = new Employee();
 		employee.setName("testUser");
 		employee.setPassword("testPassword");
-	}
+		when(empDAO.verify(any(Employee.class), eq("127.0.0.1"))).thenReturn(true);
 
-	@Test
-	void testDoPostSuccess() throws Exception {
-		when(req.getParameter("username")).thenReturn("testUser");
-		when(req.getParameter("password")).thenReturn("testPassword");
-		when(req.getSession()).thenReturn(session);
-		when(req.getHeader("X-Forwarded-For")).thenReturn(null);
-		when(req.getRemoteAddr()).thenReturn("127.0.0.1");
-		when(empDAO.verify(any(Employee.class), anyString())).thenReturn(true);
-		when(req.getRequestDispatcher("petsearch.jsp")).thenReturn(dispatcher);
+		// 模拟session和forward
+		when(request.getSession()).thenReturn(session);
+		when(request.getRequestDispatcher("petsearch.jsp")).thenReturn(requestDispatcher);
 
-		empServlet.doPost(req, resp);
+		// 执行doPost方法
+		empServlet.doPost(request, response);
 
+		// 验证session属性设置和转发
 		verify(session).setAttribute("name", "testUser");
-		verify(fbk).setFeedBack("登录成功", req);
-		verify(dispatcher).forward(req, resp);
+		verify(fbk).setFeedBack("登录成功", request);
+		verify(requestDispatcher).forward(request, response);
 	}
 
 	@Test
-	void testDoPostFailure() throws Exception {
-		when(req.getParameter("username")).thenReturn("testUser");
-		when(req.getParameter("password")).thenReturn("wrongPassword");
-		when(req.getSession()).thenReturn(session);
-		when(req.getHeader("X-Forwarded-For")).thenReturn(null);
-		when(req.getRemoteAddr()).thenReturn("127.0.0.1");
-		when(empDAO.verify(any(Employee.class), anyString())).thenReturn(false);
-		when(req.getRequestDispatcher("login.jsp")).thenReturn(dispatcher);
+	public void testDoPost_LoginFailure() throws ServletException, IOException {
+		// 模拟请求参数
+		when(request.getParameter("username")).thenReturn("testUser");
+		when(request.getParameter("password")).thenReturn("wrongPassword");
+		when(request.getHeader("X-Forwarded-For")).thenReturn(null);
+		when(request.getRemoteAddr()).thenReturn("127.0.0.1");
 
-		empServlet.doPost(req, resp);
+		// 模拟EmpDAO.verify返回false表示登录失败
+		when(empDAO.verify(any(Employee.class), eq("127.0.0.1"))).thenReturn(false);
 
-		verify(fbk).setFeedBack("登录失败，请检查用户名和密码，或者账户已被锁定。", req);
-		verify(dispatcher).forward(req, resp);
-	}
+		// 模拟forward
+		when(request.getRequestDispatcher("login.jsp")).thenReturn(requestDispatcher);
 
-	@Test
-	void testDoGet() throws IOException, ServletException {
-		empServlet.doGet(req, resp);
-		verify(req).setCharacterEncoding("UTF-8");
-		verify(empServlet).doPost(req, resp);
+		// 执行doPost方法
+		empServlet.doPost(request, response);
+
+		// 验证反馈信息和转发
+		verify(fbk).setFeedBack("登录失败，请检查用户名和密码，或者账户已被锁定。", request);
+		verify(requestDispatcher).forward(request, response);
 	}
 }

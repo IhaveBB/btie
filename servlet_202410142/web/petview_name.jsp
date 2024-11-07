@@ -111,24 +111,7 @@
         </table>
     </form>
 
-    <table class="table table-bordered table-striped">
-        <c:forEach items="${petMess}" var="mess">
-            <tr>
-                <td colspan="2" class="text-center">
-                    <form action="servlet.PetVisitServlet?purpose=visitList" method="post">
-                        <input type="hidden" name="pet_id" value="${mess.id}">
-                        <input type="submit" class="btn btn-info" value="阅览病例">
-                    </form>
-                </td>
-                <td colspan="2" class="text-center">
-                    <form action="servlet.PetVisitServlet?purpose=editor" method="post">
-                        <input type="hidden" name="pet_name" value="${mess.name}">
-                        <input type="submit" class="btn btn-success" value="增加病例">
-                    </form>
-                </td>
-            </tr>
-        </c:forEach>
-    </table>
+
 
     <table class="table table-bordered table-striped">
         <c:forEach items="${newPetMess}" var="mess">

@@ -7,6 +7,7 @@ import com.nicebao.util.Conn;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
 * @description:
@@ -23,115 +24,88 @@ public class PetDAO {
     String[] strPet;
     ArrayList<Pet> arrayList = new ArrayList<Pet>();
 
-    public ArrayList<Pet> searchOOP(String petName, String ownerName){
-        if ( petName.isEmpty() && !ownerName.isEmpty() ){
-            int j=0;
-            int[] id;
-            String sql;
-            strPet = new String[21];
-            strName2 = new String[21];
-            id = searchName(ownerName);
-            Conn cn = new Conn();
-
-            for (int i = 0; id[i]!=0 ; i++) {
-                try {
-                    sql = "select * from pets where owner_id = "+id[i];
-                    System.out.println(id[i]);
-                    cn.pr = cn.cn.prepareStatement(sql);
-                    cn.rs = cn.pr.executeQuery();
-                    while (cn.rs.next()){
-                        strPet[j] = cn.rs.getString("name");
-                        strName2[j] = strName[i];
-                        j++;
-                    }
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            }
-
-            cn.close();
-            for (int i = 0; strName2[i]!=null ; i++) {
-                pt = new Pet();
-                pt.setName(strPet[i]);
-                pt.setOwnerName(strName2[i]);
-                arrayList.add(pt);
-            }
-
-        }else if (!petName.isEmpty() && ownerName.isEmpty()){
-            int[] id;
-            String sql;
-            strName = new String[21];
-            id = searchPetName(petName);
-            Conn cn = new Conn();
-            try {
-                for (int i = 0; id[i]!=0 ; i++) {
-                    sql = "select * from owners where id = "+id[i];
-                    cn.pr = cn.cn.prepareStatement(sql);
-                    cn.rs = cn.pr.executeQuery();
-                    while (cn.rs.next()){
-                        strName[i] = cn.rs.getString("name");
-                    }
-                }
-
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-            cn.close();
-            for (int i = 0; strName[i]!=null ; i++) {
-                pt = new Pet();
-                pt.setName(strPet[i]);
-                pt.setOwnerName(strName[i]);
-                arrayList.add(pt);
-            }
-        }
-
-        return arrayList;
-    }
-
-
-    public int[] searchName(String name){
-
-        int i = 0;
-        int[] id = new int[21];
-        strName = new String[21];
-        Conn cn = new Conn();
-        String sql  = "select * from owners where name like '"+name+"%'";
-        try {
+    // 查询宠物信息，优化条件查询逻辑，减少重复代码
+    public List<Pet> searchPets(String petName, String ownerName) {
+        List<Pet> pets = new ArrayList<>();
+        String sql = petName.isEmpty()
+                ? "SELECT * FROM pets WHERE owner_id IN (SELECT id FROM owners WHERE name LIKE ?)"
+                : "SELECT * FROM pets WHERE name LIKE ?";
+        try (Conn cn = new Conn()) {
             cn.pr = cn.cn.prepareStatement(sql);
+            cn.pr.setString(1, petName.isEmpty() ? ownerName + "%" : petName + "%");
             cn.rs = cn.pr.executeQuery();
-            while (cn.rs.next()){
-                id[i] = cn.rs.getInt("id");
-                strName[i] = cn.rs.getString("name");
-                i++;
+            while (cn.rs.next()) {
+                Pet pet = new Pet();
+                pet.setName(cn.rs.getString("name"));
+                pet.setOwnerName(ownerName);
+                pets.add(pet);
             }
-        }catch (Exception e){
+        } catch (SQLException e) {
             e.printStackTrace();
         }
-        cn.close();
-        return id;
+        return pets;
     }
 
-
-    public int[] searchPetName(String petName){
-        int i = 0;
-        int[] id = new int[21];
-        strPet = new String[21];
-        Conn cn = new Conn();
-        String sql  = "select * from pets where name like '"+petName+"%'";
-        try {
+    // 获取宠物信息
+    public List<Pet> getPetDetails(String petName) {
+        List<Pet> petDetails = new ArrayList<>();
+        String sql = "SELECT * FROM pets WHERE name = ?";
+        try (Conn cn = new Conn()) {
             cn.pr = cn.cn.prepareStatement(sql);
+            cn.pr.setString(1, petName);
             cn.rs = cn.pr.executeQuery();
-            while (cn.rs.next()){
-                id[i] = cn.rs.getInt("owner_id");
-                strPet[i] = cn.rs.getString("name");
-                i++;
+            while (cn.rs.next()) {
+                Pet pet = new Pet();
+                pet.setId(cn.rs.getInt("id"));
+                pet.setName(cn.rs.getString("name"));
+                pet.setBirthDate(cn.rs.getString("birth_date"));
+                pet.setType(getTypeById(cn.rs.getString("type_id")));
+                pet.setOwnerName(getOwnerNameById(cn.rs.getString("owner_id")));
+                petDetails.add(pet);
             }
-        }catch (Exception e){
+        } catch (SQLException e) {
             e.printStackTrace();
         }
-        cn.close();
-        return id;
+        return petDetails;
     }
+
+    // 通过 typeId 获取宠物类型
+    private String getTypeById(String typeId) {
+        String type = "";
+        String sql = "SELECT name FROM types WHERE id = ?";
+        try (Conn cn = new Conn()) {
+            cn.pr = cn.cn.prepareStatement(sql);
+            cn.pr.setString(1, typeId);
+            cn.rs = cn.pr.executeQuery();
+            if (cn.rs.next()) {
+                type = cn.rs.getString("name");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return type;
+    }
+
+    // 通过 ownerId 获取宠物主人姓名
+    private String getOwnerNameById(String ownerId) {
+        String name = "";
+        String sql = "SELECT name FROM owners WHERE id = ?";
+        try (Conn cn = new Conn()) {
+            cn.pr = cn.cn.prepareStatement(sql);
+            cn.pr.setString(1, ownerId);
+            cn.rs = cn.pr.executeQuery();
+            if (cn.rs.next()) {
+                name = cn.rs.getString("name");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return name;
+    }
+
+
+
+
 
     public ArrayList<Pet> petMess(String petname){
         Conn cn = new Conn();
@@ -234,20 +208,20 @@ public class PetDAO {
     }
 
 
-    public void addPet(Pet pet){
-        Conn cn = new Conn();
-        String sql = "insert into pets (name,birth_date,type_id,owner_id) value " +
-                "(?,?,(select id from types where name = '"+pet.getType()+"')," +
-                "(select id from owners where name = '"+pet.getOwnerName()+"'))";
-        try {
+    public void addPet(Pet pet) {
+        String sql = "INSERT INTO pets (name, birth_date, type_id, owner_id) VALUES (?, ?, "
+                + "(SELECT id FROM types WHERE name = ?), "
+                + "(SELECT id FROM owners WHERE name = ?))";
+        try (Conn cn = new Conn()) {
             cn.pr = cn.cn.prepareStatement(sql);
-            cn.pr.setObject(1,pet.getName());
-            cn.pr.setObject(2,pet.getBirthDate());
-            cn.pr.execute();
-        }catch (Exception e){
+            cn.pr.setString(1, pet.getName());
+            cn.pr.setString(2, pet.getBirthDate());
+            cn.pr.setString(3, pet.getType());
+            cn.pr.setString(4, pet.getOwnerName());
+            cn.pr.executeUpdate();
+        } catch (SQLException e) {
             e.printStackTrace();
         }
-        cn.close();
     }
 
 
@@ -356,22 +330,6 @@ public class PetDAO {
     }
 
 
-    public void getPetId(int petId){
-        int i = 0;
-        int[] id = new int[21];
-        Conn cn = new Conn();
-        try {
-            String sql = "select * from visits where pet_id = "+petId;
-            cn.pr = cn.cn.prepareStatement(sql);
-            cn.rs = cn.pr.executeQuery();
-            while (cn.rs.next()) {
-                id[i++] = cn.rs.getInt("id");
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        cn.close();
-    }
 
 
     public void delVisit(int petId){

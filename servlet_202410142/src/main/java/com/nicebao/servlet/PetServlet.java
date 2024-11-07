@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
 * @description:
@@ -25,7 +26,7 @@ import java.util.ArrayList;
 **/
 public class PetServlet extends HttpServlet {
 
-    Pet pet;
+    private final PetDAO petDAO = new PetDAO();
     FBK fbk = new FBK();
     ArrayList<Pet> arrayList = new ArrayList<Pet>();
     ArrayList<PetOwner> arrayListPO = new ArrayList<PetOwner>();
@@ -36,16 +37,14 @@ public class PetServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setCharacterEncoding("UTF-8");
         String purpose = req.getParameter("purpose");
-
-        Class c = this.getClass();
-
         try {
-            method = c.getMethod(purpose, HttpServletRequest.class, HttpServletResponse.class);
-            method.invoke(this,req,resp);
-        }catch (Exception e){
+            getClass().getMethod(purpose, HttpServletRequest.class, HttpServletResponse.class)
+                    .invoke(this, req, resp);
+        } catch (Exception e) {
             e.printStackTrace();
+            fbk.setFeedBack("请求处理失败，请重试", req);
+            req.getRequestDispatcher("error.jsp").forward(req, resp);
         }
-
     }
 
     @Override
@@ -53,42 +52,30 @@ public class PetServlet extends HttpServlet {
         doPost(req, resp);
     }
 
+    // 查询宠物信息
     public void petow(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String petname = req.getParameter("petname");
-        String ownername = req.getParameter("ownername");
-        System.out.println("反射机制");
-        if (petname.isEmpty() && ownername.isEmpty()){
-            fbk.setFeedBack("请输入正确的索引", req);
-            req.getRequestDispatcher("petsearch.jsp").forward(req,resp);
-
-        }else {
-            PetDAO pd = new PetDAO();
-            arrayList = pd.searchOOP(petname, ownername);
-            req.setAttribute("petList", arrayList);
-
-            fbk.setFeedBack("宠物信息查询成功",req);
-
-            req.getRequestDispatcher("petsearch_name.jsp").forward(req, resp);
-        }
+        String petName = req.getParameter("petname");
+        String ownerName = req.getParameter("ownername");
+        List<Pet> pets = petDAO.searchPets(petName, ownerName);
+        req.setAttribute("petList", pets);
+        fbk.setFeedBack("宠物信息查询成功", req);
+        req.getRequestDispatcher("petsearch_name.jsp").forward(req, resp);
     }
 
+    // 查看宠物详情
     public void see(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        System.out.println("see返");
-        PetDAO pd = new PetDAO();
-        arrayList = pd.petMess(req.getParameter("petname"));
-        req.setAttribute("petMess",arrayList);
-
-        req.getRequestDispatcher("petview_name.jsp").forward(req,resp);
+        String petName = req.getParameter("petname");
+        List<Pet> petDetails = petDAO.getPetDetails(petName);
+        req.setAttribute("petMess", petDetails);
+        req.getRequestDispatcher("petview_name.jsp").forward(req, resp);
     }
 
     public void send(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
         req.setAttribute("petViewList",arrayList);
-
         PetDAO pt = new PetDAO();
         arrayList = pt.getTypeSelect();
         req.setAttribute("typeList",arrayList);
-
         req.getRequestDispatcher("petupdate.jsp").forward(req,resp);
 
     }
@@ -127,34 +114,26 @@ public class PetServlet extends HttpServlet {
 
     }
 
+    // 插入新宠物
     public void insert(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String petName = req.getParameter("petname");
+        String type = req.getParameter("typeSt");
+        String birthDate = req.getParameter("birthdate");
+        String ownerName = req.getParameter("ownerSt");
 
-        String petname = req.getParameter("petname");
-        String typeSt = req.getParameter("typeSt");
-        String birthdate = req.getParameter("birthdate");
-        String ownerSt = req.getParameter("ownerSt");
-
-        if (petname.isEmpty() || typeSt.isEmpty() || birthdate.isEmpty() || ownerSt.isEmpty()){
+        if (petName.isEmpty() || type.isEmpty() || birthDate.isEmpty() || ownerName.isEmpty()) {
             fbk.setFeedBack("所插入的信息均不能为空", req);
-
             req.getRequestDispatcher("newpet.jsp").forward(req, resp);
-
-        }else {
-
-            pet = new Pet();
-            pet.setName(petname);
-            pet.setType(typeSt);
-            pet.setBirthDate(birthdate);
-            pet.setOwnerName(ownerSt);
-
-            PetDAO pd = new PetDAO();
-            pd.addPet(pet);
-
+        } else {
+            Pet pet = new Pet();
+            pet.setName(petName);
+            pet.setType(type);
+            pet.setBirthDate(birthDate);
+            pet.setOwnerName(ownerName);
+            petDAO.addPet(pet);
             fbk.setFeedBack("宠物信息插入成功", req);
-
             req.getRequestDispatcher("petsearch.jsp").forward(req, resp);
         }
-
     }
 
     public void allPet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
