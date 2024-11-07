@@ -250,24 +250,6 @@ public class PetDAO {
         cn.close();
     }
 
-    public ArrayList<Pet> getPNSelect(){
-        Conn cn = new Conn();
-        ArrayList<Pet> apt = new ArrayList<Pet>();
-        String sql = "select name from pets";
-        try {
-            cn.pr = cn.cn.prepareStatement(sql);
-            cn.rs = cn.pr.executeQuery();
-            while (cn.rs.next()){
-                pt = new Pet();
-                pt.setName(cn.rs.getString("name"));
-                apt.add(pt);
-            }
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-        cn.close();
-        return apt;
-    }
 
 
     public ArrayList<Pet> allPet(int page, int pageSize) {
