@@ -19,8 +19,6 @@ import java.util.List;
 public class PetDAO {
 
     Pet pt;
-    String[] strName2;
-    String[] strName;
     String[] strPet;
     ArrayList<Pet> arrayList = new ArrayList<Pet>();
 

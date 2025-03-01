@@ -19,12 +19,10 @@ public class LoginLogServlet extends HttpServlet {
 
 	private EmpDAO empDAO;
 
-	// 构造函数进行依赖注入
 	public LoginLogServlet(EmpDAO empDAO) {
 		this.empDAO = empDAO;
 	}
 
-	// 默认构造函数，用于兼容现有代码
 	public LoginLogServlet() {
 		this.empDAO = new EmpDAO(new Conn());
 	}

@@ -17,7 +17,7 @@ import java.util.ArrayList;
 public class FBK {
 
     public void setFeedBack(String mess, HttpServletRequest req){
-        ArrayList<FeedBack> arrayListFb = new ArrayList<FeedBack>();
+        ArrayList<FeedBack> arrayListFb = new ArrayList<>();
         FeedBack fb = new FeedBack();
         fb.setMess(mess);
         arrayListFb.add(fb);

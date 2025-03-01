@@ -33,7 +33,6 @@ public class UserActionLogServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String username = (String) request.getSession().getAttribute("name");
 
-		// 调用EmpDAO获取用户操作日志
 		List<String> actionLogs = empDAO.getUserActionLogs(username);
 
 		request.setAttribute("actionLogs", actionLogs);

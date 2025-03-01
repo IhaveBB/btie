@@ -38,13 +38,12 @@ public class UserActionFilterTest {
 
 	@Before
 	public void setUp() {
-		MockitoAnnotations.openMocks(this); // 初始化 Mockito 注解
-		userActionFilter = new UserActionFilter(empDAO); // 创建 UserActionFilter 实例
+		MockitoAnnotations.openMocks(this);
+		userActionFilter = new UserActionFilter(empDAO);
 	}
 
 	@Test
 	public void testDoFilter_ShouldRecordUserAction() throws Exception {
-		// 模拟请求中的 session 属性
 		when(request.getSession()).thenReturn(mock(javax.servlet.http.HttpSession.class));
 		when(request.getSession().getAttribute("name")).thenReturn("testUser");
 		when(request.getRemoteAddr()).thenReturn("127.0.0.1");

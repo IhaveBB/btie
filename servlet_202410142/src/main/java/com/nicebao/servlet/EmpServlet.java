@@ -29,7 +29,6 @@ public class EmpServlet extends HttpServlet {
         this.fbk = fbk;
     }
 
-    // 默认构造函数，用于兼容现有代码
     public EmpServlet() {
         this.empDAO = new EmpDAO(new Conn());
         this.fbk = new FBK();
@@ -39,20 +38,16 @@ public class EmpServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setCharacterEncoding("UTF-8");
 
-        // 从请求中获取用户信息
         Employee ep = new Employee();
         ep.setName(req.getParameter("username"));
         ep.setPassword(req.getParameter("password"));
 
-        // 获取客户端 IP 地址
         String ip = req.getHeader("X-Forwarded-For");
         if (ip == null || ip.isEmpty()) {
             ip = req.getRemoteAddr();
         }
 
-        // 验证登录
         if (empDAO.verify(ep, ip)) {
-            // 登录成功，设置会话
             HttpSession session = req.getSession();
             session.setAttribute("name", ep.getName());
             session.setAttribute("role", ep.getRole());
@@ -60,7 +55,6 @@ public class EmpServlet extends HttpServlet {
             fbk.setFeedBack("登录成功", req);
             req.getRequestDispatcher("petsearch.jsp").forward(req, resp);
         } else {
-            // 登录失败，反馈信息
             fbk.setFeedBack("登录失败，请检查用户名和密码，或者账户已被锁定。", req);
             req.getRequestDispatcher("login.jsp").forward(req, resp);
         }

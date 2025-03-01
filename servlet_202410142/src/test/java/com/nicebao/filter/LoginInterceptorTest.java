@@ -30,7 +30,7 @@ public class LoginInterceptorTest {
 
 	@Before
 	public void setUp() {
-		MockitoAnnotations.openMocks(this); // 初始化 Mockito 注解
+		MockitoAnnotations.openMocks(this);
 		loginInterceptor = new LoginInterceptor();
 	}
 
